@@ -3,21 +3,18 @@
 <suite name="test1" verbose="1" preserve-order="true" parallel="false">
     <test name="Test Report ">
         <classes>
-<!--            <class name="com.zjlab.qa.tests.GetTest01">-->
-<!--                <methods>-->
-<!--                    <include name="getListUsers"></include>-->
-<!--                    <include name="Test01"></include>-->
-<!--                    <include name="Test02"></include>-->
-<!--                    <include name="Test03"></include>-->
-<!--                    <include name="Test04"></include>-->
-<!--                </methods>-->
-<!--            </class>-->
-            <class name="com.zjlab.qa.tests.LoginTest">
+            <class name="com.zjlab.qa.tests.graphAnalysis.AddGraphTest">
                 <methods>
-                    <include name="loginTestByExcel"></include>
-                    <include name="loginException"></include>
+                    <include name="test"></include>
+
                 </methods>
             </class>
+<!--            <class name="com.zjlab.qa.tests.LoginTest">-->
+<!--                <methods>-->
+<!--                    <include name="loginTestByExcel"></include>-->
+<!--                    <include name="loginException"></include>-->
+<!--                </methods>-->
+<!--            </class>-->
         </classes>
     </test>
     <listeners>

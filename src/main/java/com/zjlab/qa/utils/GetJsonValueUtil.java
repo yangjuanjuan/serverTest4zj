@@ -1,7 +1,7 @@
 package com.zjlab.qa.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-public class getJsonValueUtil {
+public class GetJsonValueUtil {
     //Json解析
     public static String getValueByJpath(JSONObject responseJson, String jpath) {
 
