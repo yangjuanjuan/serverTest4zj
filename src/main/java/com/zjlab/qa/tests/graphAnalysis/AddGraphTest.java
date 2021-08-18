@@ -32,7 +32,7 @@ public class AddGraphTest {
         graphAnalysisClient=new GraphAnalysisClientApi();
         projectGraphIds=new ArrayList<String>();
         addGraphData = ReadExcelUtil.getExcuteList("addGraph-test.xlsx");
-        Reporter.log("test范文芳丰");
+
 
 
     }

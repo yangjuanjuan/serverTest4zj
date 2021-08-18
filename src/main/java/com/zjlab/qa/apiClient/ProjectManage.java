@@ -32,7 +32,7 @@ public class ProjectManage extends ApiBaseClient {
     }
     public CloseableHttpResponse create() {
         String name= "AutoTest"+RandomStringUtils.randomAlphanumeric(3);
-        String req = "{\"name\":"+name+",\"description\":\"\"}";
+        String req = "{\"name\":\""+name+"\",\"description\":\"\"}";
         CloseableHttpResponse response= this.run(req,CREAT,cookie);
         return  response;
     }
