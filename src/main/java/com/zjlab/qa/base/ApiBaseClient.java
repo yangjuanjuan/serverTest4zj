@@ -1,8 +1,12 @@
 package com.zjlab.qa.base;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zjlab.qa.common.ParseKeyword;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,6 +14,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ApiBaseClient {
+
     protected HashMap<String,String> headermap;
     private ResourceBundle rb ;
     private String params ;
@@ -53,7 +58,18 @@ public class ApiBaseClient {
         }
         return  response;
     }
+public JSONObject convertResponseJson(CloseableHttpResponse response){
+    String reStr = null;
+    try {
+        reStr = EntityUtils.toString(response.getEntity(), "UTF-8");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    JSONObject reJson = JSONObject.parseObject(reStr);
 
+    return  reJson;
+
+}
     public String getUrl() {
         return url;
     }

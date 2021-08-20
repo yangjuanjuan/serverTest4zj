@@ -15,6 +15,7 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
     private static String ADD_GRAPH="ADD_GRAPH";
     private static String DELETE_GRAPH_BY_ID="DELETE_GRAPH_BY_ID";
     private static String QUERY_GRAPH_BY_PROID="QUERY_GRAPH_BY_PROID";
+    private static String RENAME_TAB="RENAME_TAB";
 
     private static String QUERY_BY_ID="QUERY_BY_ID";
     private static String QUERY_DATA_DETAIL="QUERY_DATA_DETAIL";
@@ -67,6 +68,16 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
         return  response;
     }
 
+    /**
+     * 重命名标签页
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse renameTab(String req) {
+        CloseableHttpResponse response= this.run(req,RENAME_TAB,cookie);
+        return  response;
+    }
+
 
     /**
      * 查询视图
@@ -88,6 +99,16 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
         return  response;
     }
 
+
+    /**
+     * 查图文件数据load状态
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse queryLoadStatus(String req) {
+        CloseableHttpResponse response= this.run(req,QUERY_LOAD_STATUS,cookie);
+        return  response;
+    }
 
 
 }

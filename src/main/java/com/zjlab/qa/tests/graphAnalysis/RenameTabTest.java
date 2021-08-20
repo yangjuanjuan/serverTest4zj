@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zjlab.qa.apiClient.GraphAnalysisClientApi;
 import com.zjlab.qa.apiClient.ProjectManage;
-import com.zjlab.qa.base.ApiBaseClient;
 import com.zjlab.qa.common.ParseKeyword;
 import com.zjlab.qa.utils.GetJsonValueUtil;
 import com.zjlab.qa.utils.ReadExcelUtil;
@@ -24,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LoadDataTest {
-    private static final Logger log= LoggerFactory.getLogger(LoadDataTest.class);
+public class RenameTabTest {
+    private static final Logger log= LoggerFactory.getLogger(RenameTabTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
     private List<Map<String, String>> loadData;
     private ProjectManage projectManage;
@@ -40,22 +39,22 @@ public class LoadDataTest {
         projectManage=new ProjectManage();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcuteList("loadData.xlsx");
+        loadData = ReadExcelUtil.getExcuteList("renameTab.xlsx");
 
 
 
     }
     //    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] getLoadData(){
+    public Object[][] renameTabParams(){
         Object[][] files = new Object[loadData.size()][];
         for(int i=0; i<loadData.size(); i++){
             files[i] = new Object[]{loadData.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "getLoadData")
-    public void loadData4Excel(Map<?,?> param) throws IOException {
+    @Test(dataProvider = "renameTabParams")
+    public void renameTabParams4Excel(Map<?,?> param) throws IOException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -67,33 +66,33 @@ public class LoadDataTest {
             if (placeholders.size() > 0 && placeholders.contains("projectId") && placeholders.contains("graphId")) {
                 Map<String, String> map = new HashMap<String, String>();
 //            新建项目，获取项目id
-                CloseableHttpResponse projRe = projectManage.create();
-                String responseStr = EntityUtils.toString(projRe.getEntity(), "UTF-8");
-                JSONObject responseJson = JSONObject.parseObject(responseStr);
-                proId = GetJsonValueUtil.getValueByJpath(responseJson, "result");
-                proIds.add(proId);
+                JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
+                proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
+
                 String addGraph = "{\"projectId\":" + proId + "}";
+
 //        新建标签页，获取标签页ID
-                CloseableHttpResponse graphRe = graphAnalysisClient.addGraph(addGraph);
-                String graphReStr = EntityUtils.toString(graphRe.getEntity(), "UTF-8");
-                JSONObject graphReJson = JSONObject.parseObject(graphReStr);
+                JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
                 graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
                 map.put("projectId", proId);
                 map.put("graphId", graphId);
                 params = ParseKeyword.replacePeso(params, map);
             }
-            CloseableHttpResponse re = graphAnalysisClient.loadData(params);
+            CloseableHttpResponse re = graphAnalysisClient.renameTab(params);
 
             //获取响应内容
-            String loadDataResStr = EntityUtils.toString(re.getEntity(), "UTF-8");
+            String renameResStr = EntityUtils.toString(re.getEntity(), "UTF-8");
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
-            log.info("Response：" + loadDataResStr);
+            log.info("Response：" + renameResStr);
             //创建JSON对象  把得到的响应字符串 序列化成json对象
-            JSONObject resJson = JSONObject.parseObject(loadDataResStr);
+            JSONObject resJson = JSONObject.parseObject(renameResStr);
             String code = GetJsonValueUtil.getValueByJpath(resJson, "code");
             String message = GetJsonValueUtil.getValueByJpath(resJson, "message");
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
-
+            if ("100".equals(code)) {
+                JSONObject temp = JSON.parseObject(params);
+                proIds.add(temp.getString("projectId"));
+            }
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
         }
 

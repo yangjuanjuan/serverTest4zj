@@ -2,6 +2,8 @@ package com.zjlab.qa.tests.graphAnalysis;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zjlab.qa.apiClient.GraphAnalysisClientApi;
+import com.zjlab.qa.apiClient.ProjectManage;
+import com.zjlab.qa.common.ParseKeyword;
 import com.zjlab.qa.utils.GetJsonValueUtil;
 import com.zjlab.qa.utils.ReadExcelUtil;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -22,21 +24,25 @@ import java.util.List;
 import java.util.Map;
 
 public class AddGraphTest {
+    private static final Logger log= LoggerFactory.getLogger(AddGraphTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
+    private ProjectManage projectManage;
     private List<Map<String, String>> addGraphData;
-    private List<String> projectGraphIds;
+    private List<String> proIds;
+    private String proId;
 
 
     @BeforeClass
     public void setUp(){
+        projectManage=new ProjectManage();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        projectGraphIds=new ArrayList<String>();
+        proIds=new ArrayList<String>();
         addGraphData = ReadExcelUtil.getExcuteList("addGraph-test.xlsx");
 
 
 
     }
-//    通过读取Excel获取测试数据入参
+//    通过读取Excel获取测试数据Request Parameter
     @DataProvider
     public Object[][] getAddGraphData(){
         Object[][] files = new Object[addGraphData.size()][];
@@ -51,28 +57,32 @@ public class AddGraphTest {
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
         String expectMessage = (String) param.get("expectMessage");
-        CloseableHttpResponse re = graphAnalysisClient.addGraph(params);
+        String isRun = (String) param.get("isRun");
+        if(isRun.contains("1")) {
+            List<String> placeholders = ParseKeyword.getKeywords(params);
+//替换Excel中通过$占位的参数
+            if (placeholders.size() > 0 && placeholders.contains("projectId")){
+                Map<String, String> map = new HashMap<String, String>();
+//            新建项目，获取项目id
+                JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
+                proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
+                proIds.add(proId);
+            CloseableHttpResponse re = graphAnalysisClient.addGraph(params);
 
-        //获取响应内容
-        String responseString = EntityUtils.toString(re.getEntity(), "UTF-8");
-        System.out.println("接口请求"+graphAnalysisClient.getUrl()+"，入参："+params);
-        System.out.println("接口返回："+responseString);
-        //创建JSON对象  把得到的响应字符串 序列化成json对象
-        JSONObject responseJson = JSONObject.parseObject(responseString);
-        String code = GetJsonValueUtil.getValueByJpath(responseJson, "code");
-        String message = GetJsonValueUtil.getValueByJpath(responseJson, "message");
-        Assert.assertEquals(code,expectCode,title+"; 实际的code："+code+"，期望返回的code："+expectCode);
-        if("100".equals(code)){
-            Integer projectId= Integer.valueOf(GetJsonValueUtil.getValueByJpath(responseJson, "result/projectId"));
-            Integer graphId= Integer.valueOf(GetJsonValueUtil.getValueByJpath(responseJson, "result/id"));
-            String temp="{\"projectId\":"+projectId+",\"graphId\":"+graphId+"}";
+            //获取响应内容
+            String responseString = EntityUtils.toString(re.getEntity(), "UTF-8");
+            log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
+            log.info("Response：" + responseString);
+            //创建JSON对象  把得到的响应字符串 序列化成json对象
+            JSONObject responseJson = JSONObject.parseObject(responseString);
+            String code = GetJsonValueUtil.getValueByJpath(responseJson, "code");
+            String message = GetJsonValueUtil.getValueByJpath(responseJson, "message");
+            Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
 
-            projectGraphIds.add(temp);
+            Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
+
+           }
         }
-        boolean isMessage=message.contains(expectMessage);
-        Assert.assertTrue(message.contains(expectMessage),title+"; 实际的message："+message+"，期望返回的message："+expectMessage);
-
-
     }
 
     /**
@@ -80,19 +90,21 @@ public class AddGraphTest {
      */
     @AfterClass
     public void tearDown(){
-        for ( String param:projectGraphIds
-             ) {
-            CloseableHttpResponse re= graphAnalysisClient.deleteGraphById(param);
+        for (String proId:proIds
+        ) {
+            String delPrams="{\"id\":"+proId+"}";
+            CloseableHttpResponse re= projectManage.deleteById(delPrams);
             String responseString = null;
             try {
                 responseString = EntityUtils.toString(re.getEntity(), "UTF-8");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("##############开始删除测试新增的标签页##################");
-            System.out.println("接口请求"+graphAnalysisClient.getUrl()+"，入参："+param);
-            System.out.println("接口返回："+responseString);
-            System.out.println("##############成功删除测试新增的标签页##################");
+
+            log.info("############################################# Start Clear Test Data ##############################################");
+            log.info("Request URL："+projectManage.getUrl()+"，Request Parameter："+delPrams);
+            log.info("Response："+responseString);
+            log.info("########################################## Clear Test Data Success ##############################################");
 
         }
 

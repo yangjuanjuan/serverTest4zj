@@ -1,10 +1,8 @@
 package com.zjlab.qa.tests.graphAnalysis;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zjlab.qa.apiClient.GraphAnalysisClientApi;
 import com.zjlab.qa.apiClient.ProjectManage;
-import com.zjlab.qa.base.ApiBaseClient;
 import com.zjlab.qa.common.ParseKeyword;
 import com.zjlab.qa.utils.GetJsonValueUtil;
 import com.zjlab.qa.utils.ReadExcelUtil;
@@ -24,47 +22,45 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LoadDataTest {
-    private static final Logger log= LoggerFactory.getLogger(LoadDataTest.class);
+public class QueryGraphByProjectIdTest {
+    private static final Logger log= LoggerFactory.getLogger(QueryGraphByProjectIdTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
-    private List<Map<String, String>> loadData;
+    private List<Map<String, String>> deleteGraphData;
     private ProjectManage projectManage;
-    private String proId;
     private List<String> proIds;
-    private String graphId;
-
+    private String proId;
 
 
     @BeforeClass
     public void setUp(){
         projectManage=new ProjectManage();
-        proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcuteList("loadData.xlsx");
+        proIds=new ArrayList<String>();
+        deleteGraphData = ReadExcelUtil.getExcuteList("addOrQueryGraph.xlsx");
 
 
 
     }
-    //    通过读取Excel获取测试数据Request Parameter
+//    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] getLoadData(){
-        Object[][] files = new Object[loadData.size()][];
-        for(int i=0; i<loadData.size(); i++){
-            files[i] = new Object[]{loadData.get(i)};
+    public Object[][] queryGraphData(){
+        Object[][] files = new Object[deleteGraphData.size()][];
+        for(int i=0; i<deleteGraphData.size(); i++){
+            files[i] = new Object[]{deleteGraphData.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "getLoadData")
-    public void loadData4Excel(Map<?,?> param) throws IOException {
-        String title = (String) param.get("title");
+    @Test(dataProvider = "queryGraphData")
+    public void queryGraphByProjectIdTest(Map<?,?> param) throws IOException {
+        String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
-        String expectMessage = (String) param.get("expectMessage");
+           String expectMessage = (String) param.get("expectMessage");
         String isRun = (String) param.get("isRun");
-        if (isRun.contains("1")) {
+        if(isRun.contains("1")) {
             List<String> placeholders = ParseKeyword.getKeywords(params);
-            //替换Excel中通过$占位的参数
-            if (placeholders.size() > 0 && placeholders.contains("projectId") && placeholders.contains("graphId")) {
+//替换Excel中通过$占位的参数
+            if (placeholders.size() > 0 && placeholders.contains("projectId")) {
                 Map<String, String> map = new HashMap<String, String>();
 //            新建项目，获取项目id
                 CloseableHttpResponse projRe = projectManage.create();
@@ -72,35 +68,30 @@ public class LoadDataTest {
                 JSONObject responseJson = JSONObject.parseObject(responseStr);
                 proId = GetJsonValueUtil.getValueByJpath(responseJson, "result");
                 proIds.add(proId);
-                String addGraph = "{\"projectId\":" + proId + "}";
-//        新建标签页，获取标签页ID
-                CloseableHttpResponse graphRe = graphAnalysisClient.addGraph(addGraph);
-                String graphReStr = EntityUtils.toString(graphRe.getEntity(), "UTF-8");
-                JSONObject graphReJson = JSONObject.parseObject(graphReStr);
-                graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
                 map.put("projectId", proId);
-                map.put("graphId", graphId);
                 params = ParseKeyword.replacePeso(params, map);
+
             }
-            CloseableHttpResponse re = graphAnalysisClient.loadData(params);
+
+            CloseableHttpResponse re = graphAnalysisClient.queryGraphByProjectId(params);
 
             //获取响应内容
-            String loadDataResStr = EntityUtils.toString(re.getEntity(), "UTF-8");
+            String queryGraphString = EntityUtils.toString(re.getEntity(), "UTF-8");
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
-            log.info("Response：" + loadDataResStr);
+            log.info("Response：" + queryGraphString);
             //创建JSON对象  把得到的响应字符串 序列化成json对象
-            JSONObject resJson = JSONObject.parseObject(loadDataResStr);
-            String code = GetJsonValueUtil.getValueByJpath(resJson, "code");
-            String message = GetJsonValueUtil.getValueByJpath(resJson, "message");
+            JSONObject queryGraphJson = JSONObject.parseObject(queryGraphString);
+            String code = GetJsonValueUtil.getValueByJpath(queryGraphJson, "code");
+            String message = GetJsonValueUtil.getValueByJpath(queryGraphJson, "message");
+
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
-
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
-        }
 
+        }
     }
 
     /**
-     * 删除新建的项目
+     * 删除新建项目
      */
     @AfterClass
     public void tearDown(){
@@ -121,6 +112,9 @@ public class LoadDataTest {
             log.info("########################################## Clear Test Data Success ##############################################");
 
         }
-    }
 
+    }
 }
+
+
+

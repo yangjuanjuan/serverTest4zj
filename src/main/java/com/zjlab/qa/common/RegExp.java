@@ -2,16 +2,17 @@ package com.zjlab.qa.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegExp {
 
-    public boolean match(String reg, String str) {
+    public static boolean match(String reg, String str) {
         return Pattern.matches(reg, str);
     }
 
-    public List<String> find(String reg, String str) {
+    public static List<String> find(String reg, String str) {
         Matcher matcher = Pattern.compile(reg).matcher(str);
         List<String> list = new ArrayList<String>();
         while (matcher.find()) {
@@ -20,7 +21,7 @@ public class RegExp {
         return list;
     }
 
-    public List<String> find(String reg, String str, int index) {
+    public static List<String> find(String reg, String str, int index) {
         Matcher matcher = Pattern.compile(reg).matcher(str);
         List<String> list = new ArrayList<String>();
         while (matcher.find()) {
@@ -29,17 +30,17 @@ public class RegExp {
         return list;
     }
 
-    public String findString(String reg, String str, int index) {
+    public static String findString(String reg, String str, int index) {
         String returnStr = null;
-        List<String> list = this.find(reg, str, index);
+        List<String> list = find(reg, str, index);
         if (list.size() != 0)
             returnStr = list.get(0);
         return returnStr;
     }
 
-    public String findString(String reg, String str) {
+    public static String findString(String reg, String str) {
         String returnStr = null;
-        List<String> list = this.find(reg, str);
+        List<String> list = find(reg, str);
         if (list.size() != 0)
             returnStr = list.get(0);
         return returnStr;
@@ -47,8 +48,4 @@ public class RegExp {
 
 
 
-    public static void main(String[] args) {
-        RegExp re = new RegExp();
-        System.out.println(re.find("(a)b", "ababab", 1));
-    }
 }

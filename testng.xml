@@ -3,12 +3,13 @@
 <suite name="test1" verbose="1" preserve-order="true" parallel="false">
     <test name="Test Report ">
         <classes>
-            <class name="com.zjlab.qa.tests.graphAnalysis.AddGraphTest">
-                <methods>
-                    <include name="test"></include>
+            <class name="com.zjlab.qa.tests.graphAnalysis.AddGraphTest"></class>
+            <class name="com.zjlab.qa.tests.graphAnalysis.QueryGraphByProjectIdTest"></class>
+            <class name="com.zjlab.qa.tests.graphAnalysis.RenameTabTest"></class>
+            <class name="com.zjlab.qa.tests.graphAnalysis.DeleteGraphByIdTest"></class>
+            <class name="com.zjlab.qa.tests.graphAnalysis.LoadDataTest"></class>
+            <class name="com.zjlab.qa.tests.graphAnalysis.QueryLoadStatusTest"></class>
 
-                </methods>
-            </class>
 <!--            <class name="com.zjlab.qa.tests.LoginTest">-->
 <!--                <methods>-->
 <!--                    <include name="loginTestByExcel"></include>-->
