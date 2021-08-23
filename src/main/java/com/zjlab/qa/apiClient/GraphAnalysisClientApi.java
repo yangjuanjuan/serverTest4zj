@@ -25,7 +25,11 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
 
 
     private static String ADD_FILTER="ADD_FILTER";
+    private static String ADD_FILTER_PIPELINE="ADD_FILTER_PIPELINE";
 
+
+    private static String UNDO="UNDO";
+    private static String REDO="REDO";
 
     private LoginClientApi loginClientApi;
     private Cookie cookie;
@@ -80,12 +84,22 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
 
 
     /**
-     * 查询视图
+     * 查询视图数据
      * @param req
      * @return
      */
     public CloseableHttpResponse queryById(String req) {
-        CloseableHttpResponse response= this.run(req,QUERY_GRAPH_BY_PROID,cookie);
+        CloseableHttpResponse response= this.run(req,QUERY_BY_ID,cookie);
+        return  response;
+    }
+
+    /**
+     * 查询视图数据详情：边-节点
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse queryDataDetail(String req) {
+        CloseableHttpResponse response= this.run(req,QUERY_DATA_DETAIL,cookie);
         return  response;
     }
 
@@ -109,6 +123,33 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
         CloseableHttpResponse response= this.run(req,QUERY_LOAD_STATUS,cookie);
         return  response;
     }
+    /**
+     * 查图文件数据load状态
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse addFilterPipeline(String req) {
+        CloseableHttpResponse response= this.run(req,ADD_FILTER_PIPELINE,cookie);
+        return  response;
+    }
 
+    /**
+     * 工具栏-撤销
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse undo(String req) {
+        CloseableHttpResponse response= this.run(req,UNDO,cookie);
+        return  response;
+    }
 
+    /**
+     * 工具栏-重做
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse redo(String req) {
+        CloseableHttpResponse response= this.run(req,REDO,cookie);
+        return  response;
+    }
 }

@@ -55,7 +55,7 @@ public class LoadDataTest {
         return files;
     }
     @Test(dataProvider = "getLoadData")
-    public void loadData4Excel(Map<?,?> param) throws IOException {
+    public void loadData(Map<?,?> param) throws IOException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -83,7 +83,7 @@ public class LoadDataTest {
                 params = ParseKeyword.replacePeso(params, map);
             }
             CloseableHttpResponse re = graphAnalysisClient.loadData(params);
-
+            log.info("Start Run Test: "+title);
             //获取响应内容
             String loadDataResStr = EntityUtils.toString(re.getEntity(), "UTF-8");
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);

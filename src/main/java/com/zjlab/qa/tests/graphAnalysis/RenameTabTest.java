@@ -54,7 +54,7 @@ public class RenameTabTest {
         return files;
     }
     @Test(dataProvider = "renameTabParams")
-    public void renameTabParams4Excel(Map<?,?> param) throws IOException {
+    public void renameTabParams(Map<?,?> param) throws IOException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -68,7 +68,7 @@ public class RenameTabTest {
 //            新建项目，获取项目id
                 JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
                 proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
-
+                proIds.add(proId);
                 String addGraph = "{\"projectId\":" + proId + "}";
 
 //        新建标签页，获取标签页ID
@@ -82,6 +82,7 @@ public class RenameTabTest {
 
             //获取响应内容
             String renameResStr = EntityUtils.toString(re.getEntity(), "UTF-8");
+            log.info("Start Run Test: "+title);
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
             log.info("Response：" + renameResStr);
             //创建JSON对象  把得到的响应字符串 序列化成json对象
@@ -89,10 +90,6 @@ public class RenameTabTest {
             String code = GetJsonValueUtil.getValueByJpath(resJson, "code");
             String message = GetJsonValueUtil.getValueByJpath(resJson, "message");
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
-            if ("100".equals(code)) {
-                JSONObject temp = JSON.parseObject(params);
-                proIds.add(temp.getString("projectId"));
-            }
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
         }
 

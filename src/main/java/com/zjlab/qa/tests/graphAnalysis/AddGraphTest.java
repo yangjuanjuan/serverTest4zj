@@ -37,7 +37,7 @@ public class AddGraphTest {
         projectManage=new ProjectManage();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        addGraphData = ReadExcelUtil.getExcuteList("addGraph-test.xlsx");
+        addGraphData = ReadExcelUtil.getExcuteList("addGraph.xlsx");
 
 
 
@@ -52,7 +52,7 @@ public class AddGraphTest {
         return files;
     }
     @Test(dataProvider = "getAddGraphData")
-    public void addGraphTestByExcel(Map<?,?> param) throws IOException {
+    public void addGraphTest(Map<?,?> param) throws IOException {
         String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -61,14 +61,18 @@ public class AddGraphTest {
         if(isRun.contains("1")) {
             List<String> placeholders = ParseKeyword.getKeywords(params);
 //替换Excel中通过$占位的参数
-            if (placeholders.size() > 0 && placeholders.contains("projectId")){
+            if (placeholders.size() > 0 && placeholders.contains("projectId")) {
                 Map<String, String> map = new HashMap<String, String>();
 //            新建项目，获取项目id
                 JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
                 proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
                 proIds.add(proId);
-            CloseableHttpResponse re = graphAnalysisClient.addGraph(params);
+                map.put("projectId", proId);
+                params = ParseKeyword.replacePeso(params, map);
 
+            }
+            CloseableHttpResponse re = graphAnalysisClient.addGraph(params);
+            log.info("Start Run Test: "+title);
             //获取响应内容
             String responseString = EntityUtils.toString(re.getEntity(), "UTF-8");
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
@@ -81,7 +85,7 @@ public class AddGraphTest {
 
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
 
-           }
+
         }
     }
 

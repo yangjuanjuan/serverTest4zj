@@ -50,7 +50,7 @@ public class QueryLoadStatusTest {
         return files;
     }
     @Test(dataProvider = "queryLoadStatusParams")
-    public void queryLoadStatus4Excel(Map<?,?> param) throws IOException {
+    public void queryLoadStatus(Map<?,?> param) throws IOException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -64,6 +64,7 @@ public class QueryLoadStatusTest {
 //            新建项目，获取项目id
                 JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
                 proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
+                proIds.add(proId);
                 String addGraph = "{\"projectId\":" + proId + "}";
 //        新建标签页，获取标签页ID
                 JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
@@ -97,13 +98,10 @@ public class QueryLoadStatusTest {
 
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
             if ("100".equals(code)) {
-                JSONObject temp = JSON.parseObject(params);
-                proIds.add(temp.getString("projectId"));
+                String status=GetJsonValueUtil.getValueByJpath(resJson, "result/status");
+
+                Assert.assertTrue(isInStatus(status), "返回的status："+status+"有误！");
             }
-            String status=GetJsonValueUtil.getValueByJpath(resJson, "result/status");
-
-            Assert.assertTrue(isInStatus(status), "返回的status："+status+"有误！");
-
 
 
 

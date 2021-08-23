@@ -12,7 +12,7 @@
 
 <!--            <class name="com.zjlab.qa.tests.LoginTest">-->
 <!--                <methods>-->
-<!--                    <include name="loginTestByExcel"></include>-->
+<!--                    <include name="loginTest"></include>-->
 <!--                    <include name="loginException"></include>-->
 <!--                </methods>-->
 <!--            </class>-->

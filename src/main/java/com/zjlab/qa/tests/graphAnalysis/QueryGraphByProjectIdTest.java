@@ -36,7 +36,7 @@ public class QueryGraphByProjectIdTest {
         projectManage=new ProjectManage();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        deleteGraphData = ReadExcelUtil.getExcuteList("addOrQueryGraph.xlsx");
+        deleteGraphData = ReadExcelUtil.getExcuteList("queryGraph.xlsx");
 
 
 
@@ -74,7 +74,7 @@ public class QueryGraphByProjectIdTest {
             }
 
             CloseableHttpResponse re = graphAnalysisClient.queryGraphByProjectId(params);
-
+            log.info("Start Run Test: "+title);
             //获取响应内容
             String queryGraphString = EntityUtils.toString(re.getEntity(), "UTF-8");
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);

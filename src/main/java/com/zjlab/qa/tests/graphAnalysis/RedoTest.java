@@ -11,8 +11,10 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.Reporter;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,10 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DeleteGraphByIdTest {
-    private static final Logger log= LoggerFactory.getLogger(DeleteGraphByIdTest.class);
+public class RedoTest {
+    private static final Logger log= LoggerFactory.getLogger(RedoTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
-    private List<Map<String, String>> deleteGraphData;
+    private List<Map<String, String>> redoParams;
     private List<String> proIds;
     private ProjectManage projectManage;
     private String proId;
@@ -35,22 +37,22 @@ public class DeleteGraphByIdTest {
         projectManage=new ProjectManage();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        deleteGraphData = ReadExcelUtil.getExcuteList("deleteGraphById.xlsx");
+        redoParams = ReadExcelUtil.getExcuteList("redo.xlsx");
 
 
 
     }
 //    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] deleteGraphData(){
-        Object[][] files = new Object[deleteGraphData.size()][];
-        for(int i=0; i<deleteGraphData.size(); i++){
-            files[i] = new Object[]{deleteGraphData.get(i)};
+    public Object[][] redoParams(){
+        Object[][] files = new Object[redoParams.size()][];
+        for(int i=0; i<redoParams.size(); i++){
+            files[i] = new Object[]{redoParams.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "deleteGraphData")
-    public void deleteGraphByIdTest(Map<?,?> param) throws IOException {
+    @Test(dataProvider = "redoParams")
+    public void redoTest(Map<?,?> param) throws IOException {
         String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -79,17 +81,17 @@ public class DeleteGraphByIdTest {
 //            params="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";
             }
 
-            CloseableHttpResponse re = graphAnalysisClient.deleteGraphById(params);
+            CloseableHttpResponse re = graphAnalysisClient.redo(params);
 
             //获取响应内容
             log.info("Start Run Test: "+title);
-            String delGraphString = EntityUtils.toString(re.getEntity(), "UTF-8");
+            String queryStr = EntityUtils.toString(re.getEntity(), "UTF-8");
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
-            log.info("Response：" + delGraphString);
+            log.info("Response：" + queryStr);
             //创建JSON对象  把得到的响应字符串 序列化成json对象
-            JSONObject delGraphJson = JSONObject.parseObject(delGraphString);
-            String code = GetJsonValueUtil.getValueByJpath(delGraphJson, "code");
-            String message = GetJsonValueUtil.getValueByJpath(delGraphJson, "message");
+            JSONObject queryJson = JSONObject.parseObject(queryStr);
+            String code = GetJsonValueUtil.getValueByJpath(queryJson, "code");
+            String message = GetJsonValueUtil.getValueByJpath(queryJson, "message");
 
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
