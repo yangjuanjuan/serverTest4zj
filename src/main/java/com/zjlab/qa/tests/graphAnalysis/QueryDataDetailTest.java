@@ -56,7 +56,6 @@ public class QueryDataDetailTest {
         String expectMessage = (String) param.get("expectMessage");
         String isRun = (String) param.get("isRun");
         if (isRun.contains("1")) {
-            //替换Excel中通过$占位的参数
             CloseableHttpResponse re = graphAnalysisClient.queryDataDetail(params);
             log.info("Start Run Test: "+title);
             //获取响应内容

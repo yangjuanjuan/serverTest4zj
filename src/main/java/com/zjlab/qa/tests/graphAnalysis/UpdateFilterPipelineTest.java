@@ -19,8 +19,8 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.*;
 
-public class AddFilterPipelineTest {
-    private static final Logger log= LoggerFactory.getLogger(AddFilterPipelineTest.class);
+public class UpdateFilterPipelineTest {
+    private static final Logger log= LoggerFactory.getLogger(UpdateFilterPipelineTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
     private List<Map<String, String>> loadData;
     private ProjectManage projectManage;
@@ -36,20 +36,20 @@ public class AddFilterPipelineTest {
         projectManage = new ProjectManage();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcuteList("addFilterPipeline.xlsx");
+        loadData = ReadExcelUtil.getExcuteList("updateFilterPipeline.xlsx");
 
     }
     //    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] addFilterPipelineParams(){
+    public Object[][] updateFilterPipelineParams(){
         Object[][] files = new Object[loadData.size()][];
         for(int i=0; i<loadData.size(); i++){
             files[i] = new Object[]{loadData.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "addFilterPipelineParams")
-    public void addFilterPipeline(Map<?,?> param) throws IOException {
+    @Test(dataProvider = "updateFilterPipelineParams")
+    public void updateFilterPipeline(Map<?,?> param) throws IOException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -64,23 +64,32 @@ public class AddFilterPipelineTest {
                 JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
                 proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
                 proIds.add(proId);
-
                 String addGraph = "{\"projectId\":" + proId + "}";
 //        新建标签页，获取标签页ID
                 JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
                 graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
 
+
+/* 本接口竟然不依赖loadData,是否合理？？
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
-                graphAnalysisClient.loadData(loadParams);
+                JSONObject dataIdJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.loadData(loadParams));
+                id = GetJsonValueUtil.getValueByJpath(dataIdJson, "result");
+
+
+*/
+                String filterPipelineParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";
+                JSONObject addFilterPipelineJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addFilterPipeline(filterPipelineParams));
+                id = GetJsonValueUtil.getValueByJpath(addFilterPipelineJson, "result/id");
 
 
                 map.put("projectId", proId);
                 map.put("graphId", graphId);
+                map.put("id", id);
 
 
                 params = ParseKeyword.replacePeso(params, map);
             }
-            CloseableHttpResponse re = graphAnalysisClient.addFilterPipeline(params);
+            CloseableHttpResponse re = graphAnalysisClient.updateFilterPipeline(params);
 
             log.info("Start Run Test: "+title);
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
@@ -92,7 +101,6 @@ public class AddFilterPipelineTest {
             String code = GetJsonValueUtil.getValueByJpath(resJson, "code");
             String message = GetJsonValueUtil.getValueByJpath(resJson, "message");
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
-
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
 
 
@@ -102,7 +110,7 @@ public class AddFilterPipelineTest {
 
     private boolean isGenerateParams(List<String> p){
 
-        List<String> allParms= Arrays.asList("projectId","graphId");
+        List<String> allParms= Arrays.asList("projectId","graphId","id");
 
         return p.containsAll(allParms);
 

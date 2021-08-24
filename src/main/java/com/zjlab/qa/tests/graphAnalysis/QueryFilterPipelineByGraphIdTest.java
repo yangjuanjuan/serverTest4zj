@@ -17,106 +17,99 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class AddFilterPipelineTest {
-    private static final Logger log= LoggerFactory.getLogger(AddFilterPipelineTest.class);
+public class QueryFilterPipelineByGraphIdTest {
+    private static final Logger log= LoggerFactory.getLogger(QueryFilterPipelineByGraphIdTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
-    private List<Map<String, String>> loadData;
+    private List<Map<String, String>> data;
     private ProjectManage projectManage;
+    private List<String> proIds;
     private String proId;
     private String graphId;
-    private String id;//载入的图数据id
-    private List<String> proIds;//载入的图数据id
-
 
 
     @BeforeClass
     public void setUp(){
-        projectManage = new ProjectManage();
-        proIds=new ArrayList<String>();
+        projectManage=new ProjectManage();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcuteList("addFilterPipeline.xlsx");
+        proIds=new ArrayList<String>();
+        data = ReadExcelUtil.getExcuteList("queryFilterPipelineByGraphId.xlsx");
+
+
 
     }
-    //    通过读取Excel获取测试数据Request Parameter
+//    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] addFilterPipelineParams(){
-        Object[][] files = new Object[loadData.size()][];
-        for(int i=0; i<loadData.size(); i++){
-            files[i] = new Object[]{loadData.get(i)};
+    public Object[][] queryFilterPipelineData(){
+        Object[][] files = new Object[data.size()][];
+        for(int i=0; i<data.size(); i++){
+            files[i] = new Object[]{data.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "addFilterPipelineParams")
-    public void addFilterPipeline(Map<?,?> param) throws IOException {
-        String title = (String) param.get("title");
+    @Test(dataProvider = "queryFilterPipelineData")
+    public void queryFilterPipelineByProjectIdTest(Map<?,?> param) throws IOException {
+        String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
         String expectMessage = (String) param.get("expectMessage");
         String isRun = (String) param.get("isRun");
-        if (isRun.contains("1")) {
+        if(isRun.contains("1")) {
             List<String> placeholders = ParseKeyword.getKeywords(params);
-            //替换Excel中通过$占位的参数
-            if (placeholders.size() > 0 && isGenerateParams(placeholders)) {
+//替换Excel中通过$占位的参数
+            if (placeholders.size() > 0 && placeholders.contains("projectId") && placeholders.contains("graphId")) {
                 Map<String, String> map = new HashMap<String, String>();
 //            新建项目，获取项目id
-                JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
-                proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
+                CloseableHttpResponse projRe = projectManage.create();
+                String responseStr = EntityUtils.toString(projRe.getEntity(), "UTF-8");
+                JSONObject responseJson = JSONObject.parseObject(responseStr);
+                proId = GetJsonValueUtil.getValueByJpath(responseJson, "result");
                 proIds.add(proId);
-
                 String addGraph = "{\"projectId\":" + proId + "}";
 //        新建标签页，获取标签页ID
-                JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
+                CloseableHttpResponse graphRe = graphAnalysisClient.addGraph(addGraph);
+                String graphReStr = EntityUtils.toString(graphRe.getEntity(), "UTF-8");
+                JSONObject graphReJson = JSONObject.parseObject(graphReStr);
                 graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
 
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
                 graphAnalysisClient.loadData(loadParams);
 
-
                 map.put("projectId", proId);
                 map.put("graphId", graphId);
-
-
                 params = ParseKeyword.replacePeso(params, map);
+//            params="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";
             }
-            CloseableHttpResponse re = graphAnalysisClient.addFilterPipeline(params);
 
-            log.info("Start Run Test: "+title);
-            log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
+            CloseableHttpResponse re = graphAnalysisClient.queryFilterPipelineByGraphId(params);
+
             //获取响应内容
-            String loadStatusStr = EntityUtils.toString(re.getEntity(), "UTF-8");
-            log.info("Response：" + loadStatusStr);
+            log.info("Start Run Test: "+title);
+            String queryFilterPipelineString = EntityUtils.toString(re.getEntity(), "UTF-8");
+            log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
+            log.info("Response：" + queryFilterPipelineString);
             //创建JSON对象  把得到的响应字符串 序列化成json对象
-            JSONObject resJson = JSONObject.parseObject(loadStatusStr);
-            String code = GetJsonValueUtil.getValueByJpath(resJson, "code");
-            String message = GetJsonValueUtil.getValueByJpath(resJson, "message");
+            JSONObject queryFilterPipelineJson = JSONObject.parseObject(queryFilterPipelineString);
+            String code = GetJsonValueUtil.getValueByJpath(queryFilterPipelineJson, "code");
+            String message = GetJsonValueUtil.getValueByJpath(queryFilterPipelineJson, "message");
+
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
-
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
-
-
         }
 
     }
 
-    private boolean isGenerateParams(List<String> p){
-
-        List<String> allParms= Arrays.asList("projectId","graphId");
-
-        return p.containsAll(allParms);
-
-    }
-
-
     /**
-     * 删除新建的项目
+     * 删除新建项目
      */
     @AfterClass
     public void tearDown(){
-
         for (String proId:proIds
-             ) {
+        ) {
             String delPrams="{\"id\":"+proId+"}";
             CloseableHttpResponse re= projectManage.deleteById(delPrams);
             String responseString = null;
@@ -134,5 +127,7 @@ public class AddFilterPipelineTest {
         }
 
     }
-
 }
+
+
+

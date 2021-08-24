@@ -19,14 +19,14 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.*;
 
-public class AddFilterPipelineTest {
-    private static final Logger log= LoggerFactory.getLogger(AddFilterPipelineTest.class);
+public class AddFilterTest {
+    private static final Logger log= LoggerFactory.getLogger(AddFilterTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
     private List<Map<String, String>> loadData;
     private ProjectManage projectManage;
     private String proId;
     private String graphId;
-    private String id;//载入的图数据id
+    private String filterPipelineId;
     private List<String> proIds;//载入的图数据id
 
 
@@ -36,20 +36,20 @@ public class AddFilterPipelineTest {
         projectManage = new ProjectManage();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcuteList("addFilterPipeline.xlsx");
+        loadData = ReadExcelUtil.getExcuteList("addFilter.xlsx");
 
     }
     //    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] addFilterPipelineParams(){
+    public Object[][] addFilterParams(){
         Object[][] files = new Object[loadData.size()][];
         for(int i=0; i<loadData.size(); i++){
             files[i] = new Object[]{loadData.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "addFilterPipelineParams")
-    public void addFilterPipeline(Map<?,?> param) throws IOException {
+    @Test(dataProvider = "addFilterParams")
+    public void addFilter(Map<?,?> param) throws IOException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -65,22 +65,28 @@ public class AddFilterPipelineTest {
                 proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
                 proIds.add(proId);
 
-                String addGraph = "{\"projectId\":" + proId + "}";
 //        新建标签页，获取标签页ID
+                String addGraph = "{\"projectId\":" + proId + "}";
                 JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
                 graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
 
+// 导入数据
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
                 graphAnalysisClient.loadData(loadParams);
 
+//创建过滤器流程
+
+                String filterPipelinePrams="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";
+                JSONObject filterPipelineJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addFilterPipeline(filterPipelinePrams));
+                filterPipelineId=GetJsonValueUtil.getValueByJpath(filterPipelineJson, "result/id");
 
                 map.put("projectId", proId);
                 map.put("graphId", graphId);
-
+                map.put("graphFilterPipelineId", filterPipelineId);
 
                 params = ParseKeyword.replacePeso(params, map);
             }
-            CloseableHttpResponse re = graphAnalysisClient.addFilterPipeline(params);
+            CloseableHttpResponse re = graphAnalysisClient.addFilter(params);
 
             log.info("Start Run Test: "+title);
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);

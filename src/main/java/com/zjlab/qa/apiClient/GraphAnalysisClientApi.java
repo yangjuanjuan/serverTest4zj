@@ -25,7 +25,10 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
 
 
     private static String ADD_FILTER="ADD_FILTER";
+    private static String QUERY_FILTER_BY_FILTER_PIPELINE_ID="QUERY_FILTER_BY_FILTER_PIPELINE_ID";
     private static String ADD_FILTER_PIPELINE="ADD_FILTER_PIPELINE";
+    private static String QUERY_FILTER_PIPELINE_BY_GRAPH_ID="QUERY_FILTER_PIPELINE_BY_GRAPH_ID";
+    private static String UPDATE_FILTER_PIPELINE="UPDATE_FILTER_PIPELINE";
 
 
     private static String UNDO="UNDO";
@@ -124,7 +127,7 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
         return  response;
     }
     /**
-     * 查图文件数据load状态
+     * 新增addFilterPipeline
      * @param req
      * @return
      */
@@ -132,7 +135,43 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
         CloseableHttpResponse response= this.run(req,ADD_FILTER_PIPELINE,cookie);
         return  response;
     }
+    /**
+     * 查询过滤器流程
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse queryFilterPipelineByGraphId(String req) {
+        CloseableHttpResponse response= this.run(req,QUERY_FILTER_PIPELINE_BY_GRAPH_ID,cookie);
+        return  response;
+    }
+    /**
+     * 查询过滤器流程
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse updateFilterPipeline(String req) {
+        CloseableHttpResponse response= this.run(req,UPDATE_FILTER_PIPELINE,cookie);
+        return  response;
+    }
+    /**
+     * 查询过滤器流程中的过滤器
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse queryFilterByFilterPipelineId(String req) {
+        CloseableHttpResponse response= this.run(req,QUERY_FILTER_BY_FILTER_PIPELINE_ID,cookie);
+        return  response;
+    }
 
+    /**
+     * 新增addFilter
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse addFilter(String req) {
+        CloseableHttpResponse response= this.run(req,ADD_FILTER,cookie);
+        return  response;
+    }
     /**
      * 工具栏-撤销
      * @param req
