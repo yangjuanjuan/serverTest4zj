@@ -13,11 +13,15 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
     private static String QUERY_GRAPH_BY_PROID="QUERY_GRAPH_BY_PROID";
     private static String RENAME_TAB="RENAME_TAB";
 
-    private static String QUERY_BY_ID="QUERY_BY_ID";
-    private static String QUERY_DATA_DETAIL="QUERY_DATA_DETAIL";
-
     private static String LOAD_DATA="LOAD_DATA";
     private static String QUERY_LOAD_STATUS="QUERY_LOAD_STATUS";
+
+
+    private static String QUERY_BY_ID="QUERY_BY_ID";
+    private static String QUERY_DATA_DETAIL="QUERY_DATA_DETAIL";
+    private static String BATCH_UPDATE="BATCH_UPDATE";
+    private static String BATCH_DELETE_NODES_AND_LINKS="BATCH_DELETE_NODES_AND_LINKS";
+
 
 
     private static String ADD_FILTER="ADD_FILTER";
@@ -109,6 +113,25 @@ public class GraphAnalysisClientApi extends ApiBaseClient {
      */
     public CloseableHttpResponse queryDataDetail(String req) {
         CloseableHttpResponse response= this.run(req,QUERY_DATA_DETAIL,cookie);
+        return  response;
+    }
+
+    /**
+     * 批量更新数据详情：边-节点
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse batchUpdate(String req) {
+        CloseableHttpResponse response= this.run(req,BATCH_UPDATE,cookie);
+        return  response;
+    }
+    /**
+     * 批量删除：边-节点
+     * @param req
+     * @return
+     */
+    public CloseableHttpResponse batchDeleteNodesAndLinks(String req) {
+        CloseableHttpResponse response= this.run(req,BATCH_DELETE_NODES_AND_LINKS,cookie);
         return  response;
     }
 

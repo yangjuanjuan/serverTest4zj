@@ -22,10 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class QueryByIdTest {
-    private static final Logger log= LoggerFactory.getLogger(QueryByIdTest.class);
+public class BatchDeleteNodesAndLinksTest {
+    private static final Logger log= LoggerFactory.getLogger(BatchDeleteNodesAndLinksTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
-    private List<Map<String, String>> queryByIdParams;
+    private List<Map<String, String>> batchDeleteNodesAndLinksParams;
     private List<String> proIds;
     private ProjectManage projectManage;
     private String proId;
@@ -37,22 +37,22 @@ public class QueryByIdTest {
         projectManage=new ProjectManage();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        queryByIdParams = ReadExcelUtil.getExcuteList("queryById.xlsx");
+        batchDeleteNodesAndLinksParams = ReadExcelUtil.getExcuteList("batchDeleteNodesAndLinks.xlsx");
 
 
 
     }
 //    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] queryByIdParams(){
-        Object[][] files = new Object[queryByIdParams.size()][];
-        for(int i=0; i<queryByIdParams.size(); i++){
-            files[i] = new Object[]{queryByIdParams.get(i)};
+    public Object[][] batchDeleteNodesAndLinksParams(){
+        Object[][] files = new Object[batchDeleteNodesAndLinksParams.size()][];
+        for(int i=0; i<batchDeleteNodesAndLinksParams.size(); i++){
+            files[i] = new Object[]{batchDeleteNodesAndLinksParams.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "queryByIdParams")
-    public void queryByIdTest(Map<?,?> param) throws IOException {
+    @Test(dataProvider = "batchDeleteNodesAndLinksParams")
+    public void batchDeleteNodesAndLinksTest(Map<?,?> param) throws IOException, InterruptedException {
         String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -72,13 +72,20 @@ public class QueryByIdTest {
                 String addGraph = "{\"projectId\":" + proId + "}";
                 JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
                 graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
+
+// 导入数据
+                String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestMoreClasses.json\"}";
+                graphAnalysisClient.loadData(loadParams);
+
+                Thread.sleep(1000);
+
+
                 map.put("projectId", proId);
                 map.put("graphId", graphId);
                 params = ParseKeyword.replacePeso(params, map);
-//            params="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";
             }
 
-            CloseableHttpResponse re = graphAnalysisClient.queryById(params);
+            CloseableHttpResponse re = graphAnalysisClient.batchDeleteNodesAndLinks(params);
 
             //获取响应内容
             log.info("Start Run Test: "+title);
