@@ -22,7 +22,7 @@
      hostAddress : 本地ip地址 -->
     <Properties>
         <!--配置日志文件输出目录 ${sys:user.home}-->
-        <Property name="LOG_HOME">${sys:user.home}/logs</Property>
+        <Property name="LOG_HOME">./logs</Property>
     </Properties>
 
     <!-- 配置输出端  -->
