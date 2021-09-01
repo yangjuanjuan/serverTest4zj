@@ -12,7 +12,7 @@ target
 .project
 .metadata/
 classes/
-logs/
+src/main/java/logs/
 *.log
 F:*
 rebel.xml
