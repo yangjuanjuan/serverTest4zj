@@ -2,9 +2,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="test1" verbose="1" preserve-order="true" parallel="classes" thread-count="10">
     <test name="Test Report ">
-        <packages>
-            <package name="com.zjlab.qa.tests.graphAnalysis"/>
-        </packages>
+<!--        <packages>-->
+<!--            <package name="com.zjlab.qa.tests.graphAnalysis"/>-->
+<!--        </packages>-->
+
+        <classes>
+        <class name="com.zjlab.qa.tests.graphAnalysis.AddGraphTest"></class>
+        </classes>
  <!--
         <classes>
             <class name="com.zjlab.qa.tests.graphAnalysis.AddGraphTest"></class>

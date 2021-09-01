@@ -7,18 +7,7 @@
     <groupId>org.zjlab</groupId>
     <artifactId>NebulaAutoTest</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>6</source>
-                    <target>6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
         <dependency>
@@ -130,6 +119,36 @@
         </dependency>
 
     </dependencies>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.22.2</version>
+            <configuration>
+                <!--为了解决在jenkins maven执行test 报告乱码问题，编码格式设置为UTF-8-->
+                <argLine>-Dfile.encoding=UTF-8</argLine>
+                <encoding>UTF-8</encoding>
+<!--                &lt;!&ndash;动态指定执行的xml文件。${project.basedir}项目目录，${xmlFileName}maven文件&ndash;&gt;-->
+<!--                <suiteXmlFiles>-->
+<!--                    <suiteXmlFile>${project.basedir}/src/main/resources/${xmlFileName}</suiteXmlFile>-->
+<!--                </suiteXmlFiles>-->
+<!--               -->
+                <suiteXmlFiles>
+                    <!-- testng.xml文件路径吗，项目下路径为"res/testng.xml" ，则定义为res/${xmlFileName} -->
+                    <suiteXmlFile>${project.basedir}/testng.xml</suiteXmlFile>
+                </suiteXmlFiles>
+            </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
