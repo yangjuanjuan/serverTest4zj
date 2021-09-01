@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="test1" verbose="1" preserve-order="true" parallel="false">
+<suite name="test1" verbose="1" preserve-order="true" parallel="classes" thread-count="10">
     <test name="Test Report ">
+        <packages>
+            <package name="com.zjlab.qa.tests.graphAnalysis"/>
+        </packages>
+ <!--
         <classes>
             <class name="com.zjlab.qa.tests.graphAnalysis.AddGraphTest"></class>
             <class name="com.zjlab.qa.tests.graphAnalysis.QueryGraphByProjectIdTest"></class>
@@ -10,13 +14,14 @@
             <class name="com.zjlab.qa.tests.graphAnalysis.LoadDataTest"></class>
             <class name="com.zjlab.qa.tests.graphAnalysis.QueryLoadStatusTest"></class>
 
-<!--            <class name="com.zjlab.qa.tests.LoginTest">-->
-<!--                <methods>-->
-<!--                    <include name="loginTest"></include>-->
-<!--                    <include name="loginException"></include>-->
-<!--                </methods>-->
-<!--            </class>-->
+            <class name="com.zjlab.qa.tests.LoginTest">
+                <methods>
+                    <include name="loginTest"></include>
+                    <include name="loginException"></include>
+                </methods>
+            </class>
         </classes>
+ -->
     </test>
     <listeners>
         <listener class-name="com.zjlab.qa.report.ExtentTestNGReporterListener"></listener>

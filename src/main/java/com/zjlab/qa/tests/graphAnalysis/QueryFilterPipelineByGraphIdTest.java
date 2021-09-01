@@ -44,15 +44,15 @@ public class QueryFilterPipelineByGraphIdTest {
     }
 //    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] queryFilterPipelineData(){
+    public Object[][] Data(){
         Object[][] files = new Object[data.size()][];
         for(int i=0; i<data.size(); i++){
             files[i] = new Object[]{data.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "queryFilterPipelineData")
-    public void queryFilterPipelineByProjectIdTest(Map<?,?> param) throws IOException, InterruptedException {
+    @Test(dataProvider = "Data")
+    public void queryFilterPipelineByGraphIdTest(Map<?,?> param) throws IOException, InterruptedException {
         String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
