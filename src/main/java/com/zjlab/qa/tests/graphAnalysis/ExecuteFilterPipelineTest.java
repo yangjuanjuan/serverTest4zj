@@ -49,7 +49,7 @@ public class ExecuteFilterPipelineTest {
         return files;
     }
     @Test(dataProvider = "data")
-    public void executeFilterPipeline(Map<?,?> param) throws IOException {
+    public void executeFilterPipeline(Map<?,?> param) throws IOException, InterruptedException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -73,6 +73,8 @@ public class ExecuteFilterPipelineTest {
 // 导入数据
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
                 graphAnalysisClient.loadData(loadParams);
+//载入数据需要一些时间
+                Thread.sleep(1000);
 
 //创建过滤器流程
 

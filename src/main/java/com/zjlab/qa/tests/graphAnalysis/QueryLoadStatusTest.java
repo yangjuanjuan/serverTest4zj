@@ -50,7 +50,7 @@ public class QueryLoadStatusTest {
         return files;
     }
     @Test(dataProvider = "queryLoadStatusParams")
-    public void queryLoadStatus(Map<?,?> param) throws IOException {
+    public void queryLoadStatus(Map<?,?> param) throws IOException, InterruptedException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -75,6 +75,7 @@ public class QueryLoadStatusTest {
 //    载入图数据，获取数据id
 
                 JSONObject dataIdJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.loadData(loadParams));
+                Thread.sleep(500);
                 id = GetJsonValueUtil.getValueByJpath(dataIdJson, "result");
 
 

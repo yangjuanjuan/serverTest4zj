@@ -1,0 +1,612 @@
+{
+    "nodes": [
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "action"
+            },
+            "id": 0,
+            "label": "0",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 5,
+                "movieType": "comedy"
+            },
+            "id": 1,
+            "label": "1",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 7,
+                "movieType": "scienceFiction"
+            },
+            "id": 2,
+            "label": "2",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "ancientCostume"
+            },
+            "id": 3,
+            "label": "3",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 8,
+                "movieType": "suspense"
+            },
+            "id": 4,
+            "label": "4",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "suspense"
+            },
+            "id": 5,
+            "label": "5",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 7,
+                "movieType": "suspense"
+            },
+            "id": 6,
+            "label": "6",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 9,
+                "movieType": "suspense"
+            },
+            "id": 7,
+            "label": "7",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 8,
+                "movieType": "suspense"
+            },
+            "id": 8,
+            "label": "8",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "comedy"
+            },
+            "id": 9,
+            "label": "9",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 6,
+                "movieType": "comedy"
+            },
+            "id": 10,
+            "label": "10",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 4,
+                "movieType": "suspense"
+            },
+            "id": 11,
+            "label": "11",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "comedy"
+            },
+            "id": 12,
+            "label": "12",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 1,
+                "movieType": "suspense"
+            },
+            "id": 13,
+            "label": "13",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 2,
+                "movieType": "scienceFiction"
+            },
+            "id": 14,
+            "label": "14",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "comedy"
+            },
+            "id": 15,
+            "label": "15",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 6,
+                "movieType": "suspense"
+            },
+            "id": 16,
+            "label": "16",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "suspense"
+            },
+            "id": 17,
+            "label": "17",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 5,
+                "movieType": "ancientCostume"
+            },
+            "id": 18,
+            "label": "18",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 5,
+                "movieType": "ancientCostume"
+            },
+            "id": 19,
+            "label": "19",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 6,
+                "movieType": "suspense"
+            },
+            "id": 20,
+            "label": "20",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 7,
+                "movieType": "scienceFiction"
+            },
+            "id": 21,
+            "label": "21",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 4,
+                "movieType": "ancientCostume"
+            },
+            "id": 22,
+            "label": "22",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 4,
+                "movieType": "ancientCostume"
+            },
+            "id": 23,
+            "label": "23",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 8,
+                "movieType": "scienceFiction"
+            },
+            "id": 24,
+            "label": "24",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 6,
+                "movieType": "scienceFiction"
+            },
+            "id": 25,
+            "label": "25",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 7,
+                "movieType": "suspense"
+            },
+            "id": 26,
+            "label": "26",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "suspense"
+            },
+            "id": 27,
+            "label": "27",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 2,
+                "movieType": "ancientCostume"
+            },
+            "id": 28,
+            "label": "28",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 3,
+                "movieType": "suspense"
+            },
+            "id": 29,
+            "label": "29",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 6,
+                "movieType": "suspense"
+            },
+            "id": 30,
+            "label": "30",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 7,
+                "movieType": "suspense"
+            },
+            "id": 31,
+            "label": "31",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 9,
+                "movieType": "suspense"
+            },
+            "id": 32,
+            "label": "32",
+            "categoryId": 1
+        },
+        {
+            "attributes": {
+                "score": 9,
+                "movieType": "suspense"
+            },
+            "id": 33,
+            "label": "33",
+            "categoryId": 1
+        }
+    ],
+    "links": [
+        {
+            "id": 1,
+            "source": 0,
+            "target": 1
+        },
+        {
+            "id": 2,
+            "source": 0,
+            "target": 2
+        },
+        {
+            "id": 3,
+            "source": 0,
+            "target": 3
+        },
+        {
+            "id": 4,
+            "source": 0,
+            "target": 4
+        },
+        {
+            "id": 5,
+            "source": 0,
+            "target": 5
+        },
+        {
+            "id": 6,
+            "source": 0,
+            "target": 7
+        },
+        {
+            "id": 7,
+            "source": 0,
+            "target": 8
+        },
+        {
+            "id": 8,
+            "source": 0,
+            "target": 9
+        },
+        {
+            "id": 9,
+            "source": 0,
+            "target": 10
+        },
+        {
+            "id": 10,
+            "source": 0,
+            "target": 11
+        },
+        {
+            "id": 11,
+            "source": 0,
+            "target": 13
+        },
+        {
+            "id": 12,
+            "source": 0,
+            "target": 14
+        },
+        {
+            "id": 13,
+            "source": 0,
+            "target": 15
+        },
+        {
+            "id": 14,
+            "source": 0,
+            "target": 16
+        },
+        {
+            "id": 15,
+            "source": 2,
+            "target": 3
+        },
+        {
+            "id": 16,
+            "source": 4,
+            "target": 5
+        },
+        {
+            "id": 17,
+            "source": 4,
+            "target": 6
+        },
+        {
+            "id": 18,
+            "source": 5,
+            "target": 6
+        },
+        {
+            "id": 19,
+            "source": 7,
+            "target": 13
+        },
+        {
+            "id": 20,
+            "source": 8,
+            "target": 14
+        },
+        {
+            "id": 21,
+            "source": 9,
+            "target": 10
+        },
+        {
+            "id": 22,
+            "source": 10,
+            "target": 22
+        },
+        {
+            "id": 23,
+            "source": 10,
+            "target": 14
+        },
+        {
+            "id": 24,
+            "source": 10,
+            "target": 12
+        },
+        {
+            "id": 25,
+            "source": 10,
+            "target": 24
+        },
+        {
+            "id": 26,
+            "source": 10,
+            "target": 21
+        },
+        {
+            "id": 27,
+            "source": 10,
+            "target": 20
+        },
+        {
+            "id": 28,
+            "source": 11,
+            "target": 24
+        },
+        {
+            "id": 29,
+            "source": 11,
+            "target": 22
+        },
+        {
+            "id": 30,
+            "source": 11,
+            "target": 14
+        },
+        {
+            "id": 31,
+            "source": 12,
+            "target": 13
+        },
+        {
+            "id": 32,
+            "source": 16,
+            "target": 17
+        },
+        {
+            "id": 33,
+            "source": 16,
+            "target": 18
+        },
+        {
+            "id": 34,
+            "source": 16,
+            "target": 21
+        },
+        {
+            "id": 35,
+            "source": 16,
+            "target": 22
+        },
+        {
+            "id": 36,
+            "source": 17,
+            "target": 18
+        },
+        {
+            "id": 37,
+            "source": 17,
+            "target": 20
+        },
+        {
+            "id": 38,
+            "source": 18,
+            "target": 19
+        },
+        {
+            "id": 39,
+            "source": 19,
+            "target": 20
+        },
+        {
+            "id": 40,
+            "source": 19,
+            "target": 33
+        },
+        {
+            "id": 41,
+            "source": 19,
+            "target": 22
+        },
+        {
+            "id": 42,
+            "source": 19,
+            "target": 23
+        },
+        {
+            "id": 43,
+            "source": 20,
+            "target": 21
+        },
+        {
+            "id": 44,
+            "source": 21,
+            "target": 22
+        },
+        {
+            "id": 45,
+            "source": 22,
+            "target": 24
+        },
+        {
+            "id": 46,
+            "source": 22,
+            "target": 25
+        },
+        {
+            "id": 47,
+            "source": 22,
+            "target": 26
+        },
+        {
+            "id": 48,
+            "source": 22,
+            "target": 23
+        },
+        {
+            "id": 49,
+            "source": 22,
+            "target": 28
+        },
+        {
+            "id": 50,
+            "source": 22,
+            "target": 30
+        },
+        {
+            "id": 51,
+            "source": 22,
+            "target": 31
+        },
+        {
+            "id": 52,
+            "source": 22,
+            "target": 32
+        },
+        {
+            "id": 53,
+            "source": 22,
+            "target": 33
+        },
+        {
+            "id": 54,
+            "source": 23,
+            "target": 28
+        },
+        {
+            "id": 55,
+            "source": 23,
+            "target": 27
+        },
+        {
+            "id": 56,
+            "source": 23,
+            "target": 29
+        },
+        {
+            "id": 57,
+            "source": 23,
+            "target": 30
+        },
+        {
+            "id": 58,
+            "source": 23,
+            "target": 31
+        },
+        {
+            "id": 59,
+            "source": 23,
+            "target": 33
+        },
+        {
+            "id": 60,
+            "source": 32,
+            "target": 33
+        }
+    ]
+}

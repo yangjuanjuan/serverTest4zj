@@ -49,7 +49,7 @@ public class UpdateFilterTest {
         return files;
     }
     @Test(dataProvider = "updateFilterParams")
-    public void updateFilter(Map<?,?> param) throws IOException {
+    public void updateFilter(Map<?,?> param) throws IOException, InterruptedException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -73,6 +73,8 @@ public class UpdateFilterTest {
 
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
                 graphAnalysisClient.loadData(loadParams);
+//载入数据需要一些时间
+                Thread.sleep(1000);
 
 
                 String filterPipelineParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";

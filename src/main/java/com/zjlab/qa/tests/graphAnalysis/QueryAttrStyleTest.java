@@ -19,107 +19,112 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.*;
 
-public class ResetFilterPipelineTest {
-    private static final Logger log= LoggerFactory.getLogger(ResetFilterPipelineTest.class);
+public class QueryAttrStyleTest {
+    private static final Logger log= LoggerFactory.getLogger(QueryAttrStyleTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
-    private List<Map<String, String>> loadData;
+    private List<Map<String, String>> queryAttrStyleParams;
+    private List<String> proIds;
+    private List<String> categoryIds;
     private ProjectManage projectManage;
     private String proId;
     private String graphId;
-    private List<String> proIds;//载入的图数据id
-
 
 
     @BeforeClass
     public void setUp(){
-        projectManage = new ProjectManage();
-        proIds=new ArrayList<String>();
+        projectManage=new ProjectManage();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcuteList("resetFilterPipeline.xlsx");
+        proIds=new ArrayList<String>();
+        categoryIds=new ArrayList<String>();
+        queryAttrStyleParams = ReadExcelUtil.getExcuteList("queryAttrStyle.xlsx");
+
+
 
     }
-    //    通过读取Excel获取测试数据Request Parameter
+//    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] resetFilterPipelineParams(){
-        Object[][] files = new Object[loadData.size()][];
-        for(int i=0; i<loadData.size(); i++){
-            files[i] = new Object[]{loadData.get(i)};
+    public Object[][] queryAttrStyleParams(){
+        Object[][] files = new Object[queryAttrStyleParams.size()][];
+        for(int i=0; i<queryAttrStyleParams.size(); i++){
+            files[i] = new Object[]{queryAttrStyleParams.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "resetFilterPipelineParams")
-    public void resetFilterPipeline(Map<?,?> param) throws IOException, InterruptedException {
-        String title = (String) param.get("title");
+    @Test(dataProvider = "queryAttrStyleParams")
+    public void queryAttrStyleTest(Map<?,?> param) throws IOException , InterruptedException{
+        String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
         String expectMessage = (String) param.get("expectMessage");
         String isRun = (String) param.get("isRun");
-        if (isRun.contains("1")) {
+        if(isRun.contains("1")) {
             List<String> placeholders = ParseKeyword.getKeywords(params);
-            //替换Excel中通过$占位的参数
-            if (placeholders.size() > 0 && isGenerateParams(placeholders)) {
+//替换Excel中通过$占位的参数
+            if (placeholders.size() > 0 &&isGenerateParams(placeholders)) {
                 Map<String, String> map = new HashMap<String, String>();
 //            新建项目，获取项目id
                 JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
                 proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
                 proIds.add(proId);
 
-                String addGraph = "{\"projectId\":" + proId + "}";
 //        新建标签页，获取标签页ID
+                String addGraph = "{\"projectId\":" + proId + "}";
                 JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
                 graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
 
+// 导入数据
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
                 graphAnalysisClient.loadData(loadParams);
 //载入数据需要一些时间
                 Thread.sleep(1000);
 
+//                查询视图数据，获取categoryIds
+                String queryParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";
+                JSONObject queryReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.queryById(queryParams));
+                categoryIds.add(GetJsonValueUtil.getValueByJpath(queryReJson, "result/categories[0]/id"));
+
+
 
                 map.put("projectId", proId);
                 map.put("graphId", graphId);
-
-                // ？？？不需要依次创建过滤器流程、过滤器，执行过滤器后才可重置，前端不执行过滤器不可重置？？？？？？？
-
-
+                map.put("categoryIds", categoryIds.toString());
                 params = ParseKeyword.replacePeso(params, map);
+//            params="{\"projectId\":"+proId+",\"graphId\":"+graphId+"}";
             }
-            CloseableHttpResponse re = graphAnalysisClient.resetFilterPipeline(params);
 
-            log.info("Start Run Test: "+title);
-            log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
+            CloseableHttpResponse re = graphAnalysisClient.queryAttrStyle(params);
+
             //获取响应内容
-            String loadStatusStr = EntityUtils.toString(re.getEntity(), "UTF-8");
-            log.info("Response：" + loadStatusStr);
+            log.info("Start Run Test: "+title);
+            String queryStr = EntityUtils.toString(re.getEntity(), "UTF-8");
+            log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
+            log.info("Response：" + queryStr);
             //创建JSON对象  把得到的响应字符串 序列化成json对象
-            JSONObject resJson = JSONObject.parseObject(loadStatusStr);
-            String code = GetJsonValueUtil.getValueByJpath(resJson, "code");
-            String message = GetJsonValueUtil.getValueByJpath(resJson, "message");
+            JSONObject queryJson = JSONObject.parseObject(queryStr);
+            String code = GetJsonValueUtil.getValueByJpath(queryJson, "code");
+            String message = GetJsonValueUtil.getValueByJpath(queryJson, "message");
+
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
-
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
-
-
         }
 
     }
 
     private boolean isGenerateParams(List<String> p){
 
-        List<String> allParms= Arrays.asList("projectId","graphId");
+        List<String> allParms= Arrays.asList("projectId","graphId","categoryIds");
 
         return p.containsAll(allParms);
 
     }
 
-
     /**
-     * 删除新建的项目
+     * 删除新建项目
      */
     @AfterClass
     public void tearDown(){
-
         for (String proId:proIds
-             ) {
+        ) {
             String delPrams="{\"id\":"+proId+"}";
             CloseableHttpResponse re= projectManage.deleteById(delPrams);
             String responseString = null;
@@ -139,3 +144,6 @@ public class ResetFilterPipelineTest {
     }
 
 }
+
+
+

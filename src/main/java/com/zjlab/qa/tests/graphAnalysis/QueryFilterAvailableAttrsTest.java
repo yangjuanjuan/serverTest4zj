@@ -50,7 +50,7 @@ public class QueryFilterAvailableAttrsTest {
         return files;
     }
     @Test(dataProvider = "data")
-    public void queryFilterAvailableAttrs(Map<?,?> param) throws IOException {
+    public void queryFilterAvailableAttrs(Map<?,?> param) throws IOException, InterruptedException {
         String title=(String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -72,6 +72,8 @@ public class QueryFilterAvailableAttrsTest {
 
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
                 graphAnalysisClient.loadData(loadParams);
+//载入数据需要一些时间
+                Thread.sleep(1000);
 
 
                 map.put("projectId", proId);

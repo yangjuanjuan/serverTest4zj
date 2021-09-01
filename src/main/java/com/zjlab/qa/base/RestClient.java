@@ -1,22 +1,26 @@
 package com.zjlab.qa.base;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RestClient {
 
@@ -54,6 +58,15 @@ public class RestClient {
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet,localContext);
         return httpResponse;
     }
+
+    //2 get请求 带有请求头 带cookie
+    public static CloseableHttpResponse getApi(String url , HashMap<String,String> headermap,Cookie cookie) throws IOException {
+        CookieStore cookieStore = new BasicCookieStore();
+        cookieStore.addCookie(cookie);
+        localContext.setCookieStore(cookieStore);
+        CloseableHttpResponse httpResponse = RestClient.getApi(url, headermap);
+        return httpResponse;
+    }
     /**
      *
      * @param url
@@ -88,6 +101,32 @@ public class RestClient {
         return httpResponse;
     }
 
+    //3携带 cookie的上传文件
+    public static CloseableHttpResponse uploadFile(String url,File file, Map<String, String> params, Cookie cookie) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        CookieStore cookieStore = new BasicCookieStore();
+        cookieStore.addCookie(cookie);
+        localContext.setCookieStore(cookieStore);
+        //HttpMultipartMode.RFC6532参数的设定是为避免文件名为中文时乱码
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.RFC6532);
+        FileBody binFileBody = new FileBody(file);
+        // add the file params
+        builder.addPart("file",binFileBody);
+        if (params != null && params.size() > 0) {
+            Set<String> keys = params.keySet();
+            for (String key : keys) {
+                builder.addPart(key, new StringBody(params.get(key),ContentType.TEXT_PLAIN));
+            }
+        }
+        HttpEntity reqEntity = builder.build();
+        httpPost.setEntity(reqEntity);
+        HashMap<String,String> header=new HashMap<String, String>();
+        header.put("Content-Type","multipart/form-data");
+        //发送post请求
+        CloseableHttpResponse httpResponse =httpClient.execute(httpPost,localContext);
+        return httpResponse;
+    }
 
     //4 Put方法
     public static CloseableHttpResponse put(String url, String entityString, HashMap<String,String> headerMap) throws ClientProtocolException, IOException {

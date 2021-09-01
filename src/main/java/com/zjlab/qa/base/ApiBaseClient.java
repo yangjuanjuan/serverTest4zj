@@ -8,9 +8,11 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ApiBaseClient {
@@ -41,6 +43,35 @@ public class ApiBaseClient {
         params= JSONObject.parseObject(req).toJSONString();
         try {
             response= RestClient.postApi(url,params,headermap,cookie);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  response;
+    }
+    public CloseableHttpResponse uploadFile(String fileName, Map<String,String>others , String apiName, Cookie cookie){
+        this.setUrl(apiName);
+        CloseableHttpResponse response = null;
+        File file = new File(fileName);
+        try {
+            response= RestClient.uploadFile(url,file,others,cookie);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  response;
+    }
+
+    public CloseableHttpResponse get(String req,String apiName,Cookie cookie){
+
+        this.setUrl(apiName);
+        CloseableHttpResponse response = null;
+        String temp= JSONObject.parseObject(req).toString();
+        params=temp.replace("{", "").replace("}", "").
+                replace("\"", "").replace("'", "").
+                replace(":", "=").replace(",", "&");
+
+        String path=getUrl()+"?"+params;
+        try {
+            response= RestClient.getApi(path,headermap,cookie);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -19,13 +19,14 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.*;
 
-public class ResetFilterPipelineTest {
-    private static final Logger log= LoggerFactory.getLogger(ResetFilterPipelineTest.class);
+public class QueryPathTest {
+    private static final Logger log= LoggerFactory.getLogger(QueryPathTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
     private List<Map<String, String>> loadData;
     private ProjectManage projectManage;
     private String proId;
     private String graphId;
+    private String id;//载入的图数据id
     private List<String> proIds;//载入的图数据id
 
 
@@ -35,20 +36,20 @@ public class ResetFilterPipelineTest {
         projectManage = new ProjectManage();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcuteList("resetFilterPipeline.xlsx");
+        loadData = ReadExcelUtil.getExcuteList("queryPath.xlsx");
 
     }
     //    通过读取Excel获取测试数据Request Parameter
     @DataProvider
-    public Object[][] resetFilterPipelineParams(){
+    public Object[][] queryPathParams(){
         Object[][] files = new Object[loadData.size()][];
         for(int i=0; i<loadData.size(); i++){
             files[i] = new Object[]{loadData.get(i)};
         }
         return files;
     }
-    @Test(dataProvider = "resetFilterPipelineParams")
-    public void resetFilterPipeline(Map<?,?> param) throws IOException, InterruptedException {
+    @Test(dataProvider = "queryPathParams")
+    public void queryPath(Map<?,?> param) throws IOException, InterruptedException {
         String title = (String) param.get("title");
         String params = (String) param.get("params");
         String expectCode = (String) param.get("expectCode");
@@ -69,21 +70,15 @@ public class ResetFilterPipelineTest {
                 JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
                 graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
 
-                String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
+                String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"actorsFilms.json\"}";
                 graphAnalysisClient.loadData(loadParams);
 //载入数据需要一些时间
                 Thread.sleep(1000);
-
-
                 map.put("projectId", proId);
                 map.put("graphId", graphId);
-
-                // ？？？不需要依次创建过滤器流程、过滤器，执行过滤器后才可重置，前端不执行过滤器不可重置？？？？？？？
-
-
                 params = ParseKeyword.replacePeso(params, map);
             }
-            CloseableHttpResponse re = graphAnalysisClient.resetFilterPipeline(params);
+            CloseableHttpResponse re = graphAnalysisClient.queryPath(params);
 
             log.info("Start Run Test: "+title);
             log.info("Request URL：" + graphAnalysisClient.getUrl() + "，Request Parameter：" + params);
