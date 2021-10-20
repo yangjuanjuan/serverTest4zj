@@ -1,6 +1,7 @@
 package com.zjlab.qa.report;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.ResourceCDN;
@@ -150,13 +151,15 @@ public class ExtentTestNGReporterListener implements IReporter{
                 String name="";
                 //如果有参数，则使用参数的toString组合代替报告中的name
                 for(Object param:parameters){
-                    name+=param.toString();
+                    HashMap paramMap= JSONObject.parseObject(JSONObject.toJSONString(param),HashMap.class);
+                    String title=((String) paramMap.get("title")).split("-")[2];
+                    name+=title;
                 }
                 if(name.length()>0){
                     if(name.length()>50){
                         name= name.substring(0,30)+"...";
                     }
-                    name=result.getMethod().getMethodName()+name;
+                    name=result.getMethod().getMethodName()+"-"+name;
                 }else{
                     name = result.getMethod().getMethodName();
                 }
