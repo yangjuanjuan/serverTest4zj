@@ -1,7 +1,7 @@
 package com.zjlab.qa.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-public class GetJsonValueUtil {
+public class JsonHandleUtil {
     //Json解析
     public static String getValueByJpath(JSONObject responseJson, String jpath) {
 
@@ -17,5 +17,14 @@ public class GetJsonValueUtil {
         }
         return obj.toString();
     }
+   public static boolean strCompare(String actual, String expected, String jpath ){
+        String act = getValueByJpath(str2Json(actual),jpath);
+        String exp = getValueByJpath(str2Json(expected),jpath);
+        return act.contains(exp);
+   }
+
+   public static JSONObject str2Json(String str){
+        return  JSONObject.parseObject(str);
+   }
 }
 

@@ -1,4 +1,4 @@
-package com.zjlab.qa.apiClient;
+package com.zjlab.qa.clientApi;
 
 import com.zjlab.qa.base.ApiBaseClient;
 

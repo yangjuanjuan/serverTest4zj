@@ -102,7 +102,7 @@ public class RestClient {
     }
 
     //3携带 cookie的上传文件
-    public static CloseableHttpResponse uploadFile(String url,File file, Map<String, String> params, Cookie cookie) throws IOException {
+    public static CloseableHttpResponse uploadFile(String url,File file, Map<String, Object> params, Cookie cookie) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
         CookieStore cookieStore = new BasicCookieStore();
@@ -116,7 +116,7 @@ public class RestClient {
         if (params != null && params.size() > 0) {
             Set<String> keys = params.keySet();
             for (String key : keys) {
-                builder.addPart(key, new StringBody(params.get(key),ContentType.TEXT_PLAIN));
+                builder.addPart(key, new StringBody((String) params.get(key),ContentType.TEXT_PLAIN));
             }
         }
         HttpEntity reqEntity = builder.build();

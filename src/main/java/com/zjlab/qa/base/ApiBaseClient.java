@@ -48,7 +48,7 @@ public class ApiBaseClient {
         }
         return  response;
     }
-    public CloseableHttpResponse uploadFile(String fileName, Map<String,String>others , String apiName, Cookie cookie){
+    public CloseableHttpResponse uploadFile(String fileName, Map<String,Object>others , String apiName, Cookie cookie){
         this.setUrl(apiName);
         CloseableHttpResponse response = null;
         File file = new File(fileName);
@@ -60,6 +60,13 @@ public class ApiBaseClient {
         return  response;
     }
 
+    /**
+     * 保持get的参数和post参数格式统一，加了replace的操作
+     * @param req
+     * @param apiName
+     * @param cookie
+     * @return
+     */
     public CloseableHttpResponse get(String req,String apiName,Cookie cookie){
 
         this.setUrl(apiName);

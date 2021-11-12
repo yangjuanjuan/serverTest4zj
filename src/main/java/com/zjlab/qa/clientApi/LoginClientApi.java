@@ -1,16 +1,10 @@
-package com.zjlab.qa.apiClient;
+package com.zjlab.qa.clientApi;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.zjlab.qa.base.ApiBaseClient;
 import com.zjlab.qa.base.RestClient;
-import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.cookie.Cookie;
-import org.apache.xmlbeans.impl.values.XmlValueNotSupportedException;
-
-import java.io.IOException;
-import java.util.List;
 
 public class LoginClientApi extends ApiBaseClient {
     private static String LOGIN_PATH="LOGIN_PATH";

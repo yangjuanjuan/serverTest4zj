@@ -1,10 +1,10 @@
 package com.zjlab.qa.tests.graphAnalysis;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zjlab.qa.apiClient.GraphAnalysisClientApi;
-import com.zjlab.qa.apiClient.ProjectManage;
+import com.zjlab.qa.clientApi.GraphAnalysisClientApi;
+import com.zjlab.qa.clientApi.ProjectManageClientApi;
 import com.zjlab.qa.common.ParseKeyword;
-import com.zjlab.qa.utils.GetJsonValueUtil;
+import com.zjlab.qa.utils.JsonHandleUtil;
 import com.zjlab.qa.utils.ReadExcelUtil;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -25,7 +25,7 @@ import java.util.Map;
 public class DownloadTest {
     private static final Logger log= LoggerFactory.getLogger(DownloadTest.class);
     private GraphAnalysisClientApi graphAnalysisClient;
-    private ProjectManage projectManage;
+    private ProjectManageClientApi projectManageClientApi;
     private List<Map<String, String>> downloadData;
     private List<String> proIds;
     private String proId;
@@ -35,10 +35,10 @@ public class DownloadTest {
 
     @BeforeClass
     public void setUp(){
-        projectManage=new ProjectManage();
+        projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        downloadData = ReadExcelUtil.getExcuteList("download.xlsx");
+        downloadData = ReadExcelUtil.getExcelList("download.xlsx","");
 
 
 
@@ -59,20 +59,20 @@ public class DownloadTest {
         String expectCode = (String) param.get("expectCode");
         String expectMessage = (String) param.get("expectMessage");
         String isRun = (String) param.get("isRun");
-        if(isRun.contains("1")) {
+        if(isRun.equals("1")) {
             List<String> placeholders = ParseKeyword.getKeywords(params);
 //替换Excel中通过$占位的参数
             if (placeholders.size() > 0 && placeholders.contains("graphId")) {
                 Map<String, String> map = new HashMap<String, String>();
 //            新建项目，获取项目id
-                JSONObject proJson = projectManage.convertResponseJson(projectManage.create());
-                proId = GetJsonValueUtil.getValueByJpath(proJson, "result");
+                JSONObject proJson = projectManageClientApi.convertResponseJson(projectManageClientApi.create());
+                proId = JsonHandleUtil.getValueByJpath(proJson, "result");
                 proIds.add(proId);
 
                 //        新建标签页，获取标签页ID
                 String addGraph = "{\"projectId\":" + proId + "}";
                 JSONObject graphReJson=graphAnalysisClient.convertResponseJson(graphAnalysisClient.addGraph(addGraph));
-                graphId = GetJsonValueUtil.getValueByJpath(graphReJson, "result/id");
+                graphId = JsonHandleUtil.getValueByJpath(graphReJson, "result/id");
                 map.put("graphId", graphId);
 
                 String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"actorsFilms.json\"}";
@@ -93,8 +93,8 @@ public class DownloadTest {
             if(!title.contains("成功")){
                 //创建JSON对象  把得到的响应字符串 序列化成json对象
                 JSONObject responseJson = JSONObject.parseObject(responseString);
-                String code = GetJsonValueUtil.getValueByJpath(responseJson, "code");
-                String message = GetJsonValueUtil.getValueByJpath(responseJson, "message");
+                String code = JsonHandleUtil.getValueByJpath(responseJson, "code");
+                String message = JsonHandleUtil.getValueByJpath(responseJson, "message");
                 Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
                 Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
             }
@@ -110,7 +110,7 @@ public class DownloadTest {
         for (String proId:proIds
         ) {
             String delPrams="{\"id\":"+proId+"}";
-            CloseableHttpResponse re= projectManage.deleteById(delPrams);
+            CloseableHttpResponse re= projectManageClientApi.deleteById(delPrams);
             String responseString = null;
             try {
                 responseString = EntityUtils.toString(re.getEntity(), "UTF-8");
@@ -119,7 +119,7 @@ public class DownloadTest {
             }
 
             log.info("############################################# Start Clear Test Data ##############################################");
-            log.info("Request URL："+projectManage.getUrl()+"，Request Parameter："+delPrams);
+            log.info("Request URL："+ projectManageClientApi.getUrl()+"，Request Parameter："+delPrams);
             log.info("Response："+responseString);
             log.info("########################################## Clear Test Data Success ##############################################");
 

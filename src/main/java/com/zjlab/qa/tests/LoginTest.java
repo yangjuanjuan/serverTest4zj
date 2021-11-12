@@ -1,9 +1,7 @@
 package com.zjlab.qa.tests;
 
 
-import com.sun.net.httpserver.Headers;
-import com.zjlab.qa.apiClient.LoginClientApi;
-import org.apache.http.Header;
+import com.zjlab.qa.clientApi.LoginClientApi;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

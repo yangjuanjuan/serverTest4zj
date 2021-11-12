@@ -1,5 +1,6 @@
 package com.zjlab.qa.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -24,7 +25,7 @@ public class ReadExcelUtil {
      * @param
      * @return
      */
-    public static List<Map<String, String>> getExcuteList(String fileName) {
+    public static List<Map<String, String>> getExcelList(String fileName,String apiTag) {
         String filePath = root+fileName;
         Workbook wb = null;
         Sheet sheet = null;
@@ -47,7 +48,7 @@ public class ReadExcelUtil {
                 row = sheet.getRow(i);
                 Map<String, String> map=new HashMap<String, String>();
                 if (!isRowEmpty(row)) {
-                    for (int j = 0; j < colEnd-1; j++) {
+                    for (int j = 0; j < colEnd; j++) {
                         cellData = (String) getCellFormatValue(row.getCell(j));
                         if(cellData!=null ){
                             if(i == 0 && cellData.length()>0){
@@ -64,7 +65,12 @@ public class ReadExcelUtil {
                 } else {
                     break;
                 }
-                if(!map.isEmpty()) {list.add(map);}
+                if(!map.isEmpty()) {
+                    if(!StringUtils.isBlank(apiTag)&& !map.containsValue(apiTag)){
+                        continue;
+                    }
+                    list.add(map);
+                }
             }
         }
         return list;

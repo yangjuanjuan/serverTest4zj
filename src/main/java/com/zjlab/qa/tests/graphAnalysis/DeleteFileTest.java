@@ -1,24 +1,20 @@
 package com.zjlab.qa.tests.graphAnalysis;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.zjlab.qa.apiClient.GraphAnalysisClientApi;
-import com.zjlab.qa.apiClient.ProjectManage;
+import com.zjlab.qa.clientApi.GraphAnalysisClientApi;
 import com.zjlab.qa.common.ParseKeyword;
-import com.zjlab.qa.utils.GetJsonValueUtil;
+import com.zjlab.qa.utils.JsonHandleUtil;
 import com.zjlab.qa.utils.ReadExcelUtil;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +29,7 @@ public class DeleteFileTest {
     @BeforeClass
     public void setUp(){
         graphAnalysisClient=new GraphAnalysisClientApi();
-        deleteFileData = ReadExcelUtil.getExcuteList("deleteFile.xlsx");
+        deleteFileData = ReadExcelUtil.getExcelList("deleteFile.xlsx","");
 
 
 
@@ -54,7 +50,7 @@ public class DeleteFileTest {
         String expectCode = (String) param.get("expectCode");
         String expectMessage = (String) param.get("expectMessage");
         String isRun = (String) param.get("isRun");
-        if(isRun.contains("1")) {
+        if(isRun.equals("1")) {
             List<String> placeholders = ParseKeyword.getKeywords(params);
             //替换Excel中通过$占位的参数
             if (placeholders.size() > 0 && placeholders.contains("fileName")){
@@ -73,8 +69,8 @@ public class DeleteFileTest {
             log.info("Response：" + responseString);
             //创建JSON对象  把得到的响应字符串 序列化成json对象
             JSONObject responseJson = JSONObject.parseObject(responseString);
-            String code = GetJsonValueUtil.getValueByJpath(responseJson, "code");
-            String message = GetJsonValueUtil.getValueByJpath(responseJson, "message");
+            String code = JsonHandleUtil.getValueByJpath(responseJson, "code");
+            String message = JsonHandleUtil.getValueByJpath(responseJson, "message");
             Assert.assertEquals(code, expectCode, title + "; 实际的code：" + code + "，期望返回的code：" + expectCode);
             Assert.assertTrue(message.contains(expectMessage), title + "; 实际的message：" + message + "，期望返回的message：" + expectMessage);
 
