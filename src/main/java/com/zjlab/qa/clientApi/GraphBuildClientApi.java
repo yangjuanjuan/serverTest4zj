@@ -23,6 +23,21 @@ public class GraphBuildClientApi extends ApiBaseClient {
     public static String GRAPH_UNDO="GRAPH_UNDO";
     public static String GRAPH_REDO="GRAPH_REDO";
     public static String GRAPH_DOWNLOAD="GRAPH_DOWNLOAD";
+    public static String GRAPH_QUERY_ACTION="GRAPH_QUERY_ACTION";
+    public static String GRAPH_ADD_ACTION="GRAPH_ADD_ACTION";
+    public static String GRAPH_UPDATE_ACTION="GRAPH_UPDATE_ACTION";
+    public static String GRAPH_DELETE_ACTION="GRAPH_DELETE_ACTION";
+    public static String GRAPH_UPDATE_SEMANTIC="GRAPH_UPDATE_SEMANTIC";
+    public static String GRAPH_ADD_CATEGORY="GRAPH_ADD_CATEGORY";
+    public static String GRAPH_UPDATE_CATEGORY="GRAPH_UPDATE_CATEGORY";
+    public static String GRAPH_ADD_CATEGORY_ATTR="GRAPH_ADD_CATEGORY_ATTR";
+    public static String GRAPH_LOAD_GRAPH_DATA="GRAPH_LOAD_GRAPH_DATA";
+    public static String GRAPH_REMOVE_CATEGORY_ATTR="GRAPH_REMOVE_CATEGORY_ATTR";
+    public static String GRAPH_ADD_EDGE="GRAPH_ADD_EDGE";
+    public static String GRAPH_UPDATE_EDGE="GRAPH_UPDATE_EDGE";
+    public static String GRAPH_QUERY_EDGE_CONFIGURE="GRAPH_QUERY_EDGE_CONFIGURE";
+    public static String GRAPH_SAVE_EDGE_CONFIGURE="GRAPH_SAVE_EDGE_CONFIGURE";
+    public static String GRAPH_BATCH_DELETE_CATEGORIES_AND_EDGES="GRAPH_BATCH_DELETE_CATEGORIES_AND_EDGES";
 
 
     private LoginClientApi loginClientApi;
@@ -36,6 +51,48 @@ public class GraphBuildClientApi extends ApiBaseClient {
         loginClientApi.setLoginCookie();
         cookie=loginClientApi.getLoginCookie();
 
+    }
+    public CloseableHttpResponse addCategory(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_ADD_CATEGORY,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse updateCategory(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_UPDATE_CATEGORY,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse addCategoryAttr(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_ADD_CATEGORY_ATTR,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse  removeCategoryAttr(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_REMOVE_CATEGORY_ATTR,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse addEdge(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_ADD_EDGE,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse updateEdge(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_UPDATE_EDGE,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse queryEdgeConfigure(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_QUERY_EDGE_CONFIGURE,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse saveEdgeConfigure(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_SAVE_EDGE_CONFIGURE,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse batchDeleteCategoriesAndEdges(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_BATCH_DELETE_CATEGORIES_AND_EDGES,cookie);
+        return  response;
+    }
+
+
+    public CloseableHttpResponse loadGraphData(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_LOAD_GRAPH_DATA,cookie);
+        return  response;
     }
     /**
      * 查询视图数据
@@ -101,6 +158,26 @@ public class GraphBuildClientApi extends ApiBaseClient {
 
     public CloseableHttpResponse updateLink(String req) {
         CloseableHttpResponse response= this.run(req,GRAPH_UPDATE_LINK,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse queryAction(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_QUERY_ACTION,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse addAction(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_ADD_ACTION,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse updateAction(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_UPDATE_ACTION,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse deleteAction(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_DELETE_ACTION,cookie);
+        return  response;
+    }
+    public CloseableHttpResponse updateSemantic(String req) {
+        CloseableHttpResponse response= this.run(req,GRAPH_UPDATE_SEMANTIC,cookie);
         return  response;
     }
 
