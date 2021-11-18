@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="test1" verbose="1" preserve-order="true" parallel="classes" thread-count="20" >
-    <test name="Test Report ">
-        <packages>
-            <package name="com.zjlab.qa.tests.graph"/>
-        </packages>
-<!--        <classes>-->
-<!--            <class name="com.zjlab.qa.tests.graphAnalysis.QueryGraphByProjectIdTest"></class>-->
-<!--        </classes>-->
-
- <!--
+<suite name="test1" verbose="1" preserve-order="true" parallel="false">
+    <test name="GraphBuild Cases ">
         <classes>
-            <class name="com.zjlab.qa.tests.graphAnalysis.AddGraphTest"></class>
-            <class name="com.zjlab.qa.tests.graphAnalysis.QueryGraphByProjectIdTest"></class>
-            <class name="com.zjlab.qa.tests.graphAnalysis.RenameTabTest"></class>
-            <class name="com.zjlab.qa.tests.graphAnalysis.DeleteGraphByIdTest"></class>
-            <class name="com.zjlab.qa.tests.graphAnalysis.LoadDataTest"></class>
-            <class name="com.zjlab.qa.tests.graphAnalysis.QueryLoadStatusTest"></class>
-
-            <class name="com.zjlab.qa.tests.LoginTest">
-                <methods>
-                    <include name="loginTest"></include>
-                    <include name="loginException"></include>
-                </methods>
-            </class>
+            <class name="com.zjlab.qa.tests.graph.LoadGraphDataTest"></class>
+            <class name="com.zjlab.qa.tests.graph.AddCategoryTest"></class>
+            <class name="com.zjlab.qa.tests.graph.AddEdgeTest"></class>
+            <class name="com.zjlab.qa.tests.graph.AddCategoryAttrTest"></class>
+            <class name="com.zjlab.qa.tests.graph.AddActionTest"></class>
+            <class name="com.zjlab.qa.tests.graph.RedoTest"></class>
         </classes>
- -->
+    </test>
+    <test name="2">
+    <classes>
+        <class name="com.zjlab.qa.tests.graph.BatchDeleteCategoriesAndEdgesTest"></class>
+        <class name="com.zjlab.qa.tests.graph.BatchUpdateTest"></class>
+        <class name="com.zjlab.qa.tests.graph.DeleteActionTest"></class>
+        <class name="com.zjlab.qa.tests.graph.DownloadTest"></class>
+        <class name="com.zjlab.qa.tests.graph.LoadToAnalysisTest"></class>
+    </classes>
+    </test>
+    <test name="3">
+        <classes>
+
+            <class name="com.zjlab.qa.tests.graph.UpdateSemanticTest"></class>
+            <class name="com.zjlab.qa.tests.graph.QueryActionTest"></class>
+            <class name="com.zjlab.qa.tests.graph.QueryByIdTest"></class>
+            <class name="com.zjlab.qa.tests.graph.QueryByTaskIdTest"></class>
+            <class name="com.zjlab.qa.tests.graph.QueryClusterTest"></class>
+            <class name="com.zjlab.qa.tests.graph.QueryEdgeConfigureTest"></class>
+            <class name="com.zjlab.qa.tests.graph.QueryPathTest"></class>
+        </classes>
     </test>
     <listeners>
         <listener class-name="com.zjlab.qa.report.ExtentTestNGReporterListener"></listener>

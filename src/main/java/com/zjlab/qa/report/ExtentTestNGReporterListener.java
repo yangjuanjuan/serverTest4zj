@@ -14,12 +14,13 @@ import org.testng.*;
 import org.testng.xml.XmlSuite;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ExtentTestNGReporterListener implements IReporter{
     //生成的路径以及文件名
     private static final String OUTPUT_FOLDER = "test-output/";
-    private static final String FILE_NAME = "nebula-test.html";
+    private static final String FILE_NAME = "-report.html";
 
     private ExtentReports extent;
 
@@ -108,7 +109,12 @@ public class ExtentTestNGReporterListener implements IReporter{
         if(!reportDir.exists()&& !reportDir .isDirectory()){
             reportDir.mkdir();
         }
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER + FILE_NAME);
+        //时间格式化格式
+        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //获取当前时间并作为时间戳
+        String timeStamp=simpleDateFormat.format(new Date());
+
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER +timeStamp+ FILE_NAME);
         // 设置静态文件的DNS
         //怎么样解决cdn.rawgit.com访问不了的情况
         htmlReporter.config().setResourceCDN(ResourceCDN.EXTENTREPORTS);
