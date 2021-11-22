@@ -37,7 +37,7 @@ public class BatchUpdateTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        batchUpdateParams = ReadExcelUtil.getExcelList("batchUpdate.xlsx","");
+        batchUpdateParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.BATCH_UPDATE);
 
 
 

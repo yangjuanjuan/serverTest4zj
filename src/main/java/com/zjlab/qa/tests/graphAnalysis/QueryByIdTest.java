@@ -37,7 +37,7 @@ public class QueryByIdTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        queryByIdParams = ReadExcelUtil.getExcelList("queryById.xlsx","");
+        queryByIdParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_BY_ID);
 
 
 

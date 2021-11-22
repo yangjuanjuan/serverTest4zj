@@ -36,7 +36,7 @@ public class ExecuteFilterPipelineTest {
         projectManageClientApi = new ProjectManageClientApi();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcelList("executeFilterPipeline.xlsx","");
+        loadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.EXECUTE_FILTER_PIPELINE);
 
     }
     //    通过读取Excel获取测试数据Request Parameter

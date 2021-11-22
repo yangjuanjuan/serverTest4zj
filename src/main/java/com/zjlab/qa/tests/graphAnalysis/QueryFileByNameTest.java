@@ -32,7 +32,7 @@ public class QueryFileByNameTest {
     @BeforeClass
     public void setUp(){
         graphAnalysisClient=new GraphAnalysisClientApi();
-        queryFileByNameData = ReadExcelUtil.getExcelList("queryFileByName.xlsx","");
+        queryFileByNameData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_FILE_BY_NAME);
 
 
 

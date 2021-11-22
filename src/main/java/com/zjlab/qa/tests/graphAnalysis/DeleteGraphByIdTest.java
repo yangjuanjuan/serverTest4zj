@@ -34,7 +34,7 @@ public class DeleteGraphByIdTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        deleteGraphData = ReadExcelUtil.getExcelList("deleteGraphById.xlsx","");
+        deleteGraphData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.DELETE_GRAPH_BY_ID);
 
 
 

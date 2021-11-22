@@ -37,7 +37,7 @@ public class DeleteFilterTest {
         projectManageClientApi = new ProjectManageClientApi();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcelList("deleteFilter.xlsx","");
+        loadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.DELETE_FILTER);
 
     }
     //    通过读取Excel获取测试数据Request Parameter

@@ -36,7 +36,7 @@ public class QueryGraphByProjectIdTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        deleteGraphData = ReadExcelUtil.getExcelList("queryGraph.xlsx","");
+        deleteGraphData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_GRAPH_BY_PROID);
 
 
 

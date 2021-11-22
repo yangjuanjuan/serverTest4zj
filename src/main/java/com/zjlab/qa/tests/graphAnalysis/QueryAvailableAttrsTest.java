@@ -36,7 +36,7 @@ public class QueryAvailableAttrsTest {
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
         categoryIds=new ArrayList<String>();
-        queryAvailableAttrsParams = ReadExcelUtil.getExcelList("queryAvailableAttrs.xlsx","");
+        queryAvailableAttrsParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_AVAILABLE_ATTRS);
 
 
 

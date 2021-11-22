@@ -30,7 +30,7 @@ public class QueryDataDetailTest {
     public void setUp(){
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcelList("queryDataDetail.xlsx","");
+        loadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_DATA_DETAIL);
 
 
 

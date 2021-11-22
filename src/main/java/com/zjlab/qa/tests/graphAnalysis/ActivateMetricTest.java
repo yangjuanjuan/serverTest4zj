@@ -34,7 +34,7 @@ public class ActivateMetricTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        activateMetricParams = ReadExcelUtil.getExcelList("activateMetric.xlsx","");
+        activateMetricParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.ACTIVATE_METRIC);
 
 
 

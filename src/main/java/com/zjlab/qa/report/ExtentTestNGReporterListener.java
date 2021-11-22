@@ -109,12 +109,13 @@ public class ExtentTestNGReporterListener implements IReporter{
         if(!reportDir.exists()&& !reportDir .isDirectory()){
             reportDir.mkdir();
         }
-        //时间格式化格式
-        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //获取当前时间并作为时间戳
-        String timeStamp=simpleDateFormat.format(new Date());
+//        //时间格式化格式
+//        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        //获取当前时间并作为时间戳
+//        String timeStamp=simpleDateFormat.format(new Date());
 
-        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER +timeStamp+ FILE_NAME);
+        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER + FILE_NAME);
+//        ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER +timeStamp+ FILE_NAME);
         // 设置静态文件的DNS
         //怎么样解决cdn.rawgit.com访问不了的情况
         htmlReporter.config().setResourceCDN(ResourceCDN.EXTENTREPORTS);

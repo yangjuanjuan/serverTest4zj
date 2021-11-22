@@ -37,7 +37,7 @@ public class UndoTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        undoParams = ReadExcelUtil.getExcelList("undo.xlsx","");
+        undoParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.UNDO);
 
 
 

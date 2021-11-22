@@ -34,7 +34,7 @@ public class QueryPageRankTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        queryPageRankParams = ReadExcelUtil.getExcelList("queryPageRank.xlsx","");
+        queryPageRankParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_PAGE_RANK);
 
 
 

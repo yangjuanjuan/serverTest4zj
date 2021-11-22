@@ -36,7 +36,7 @@ public class AddGraphTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        addGraphData = ReadExcelUtil.getExcelList("addGraph.xlsx","");
+        addGraphData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.ADD_GRAPH);
 
 
 

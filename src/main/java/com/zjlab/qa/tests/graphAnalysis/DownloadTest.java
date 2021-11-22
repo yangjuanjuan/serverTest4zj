@@ -38,7 +38,7 @@ public class DownloadTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        downloadData = ReadExcelUtil.getExcelList("download.xlsx","");
+        downloadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.DOWNLOAD);
 
 
 

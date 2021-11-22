@@ -34,7 +34,7 @@ public class QueryMetricsTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        queryMetricsParams = ReadExcelUtil.getExcelList("queryMetrics.xlsx","");
+        queryMetricsParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_METRICS);
 
 
 

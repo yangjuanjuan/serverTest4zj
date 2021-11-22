@@ -36,7 +36,7 @@ public class UpdateFilterTest {
         projectManageClientApi = new ProjectManageClientApi();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcelList("updateFilter.xlsx","");
+        loadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.UPDATE_FILTER);
 
     }
     //    通过读取Excel获取测试数据Request Parameter

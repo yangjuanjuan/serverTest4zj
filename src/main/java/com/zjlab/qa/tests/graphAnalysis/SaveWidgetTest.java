@@ -37,7 +37,7 @@ public class SaveWidgetTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        saveWidgetParams = ReadExcelUtil.getExcelList("saveWidget.xlsx","");
+        saveWidgetParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.SAVE_WIDGET);
 
 
 

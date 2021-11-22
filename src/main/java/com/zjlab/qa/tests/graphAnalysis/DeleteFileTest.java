@@ -29,7 +29,7 @@ public class DeleteFileTest {
     @BeforeClass
     public void setUp(){
         graphAnalysisClient=new GraphAnalysisClientApi();
-        deleteFileData = ReadExcelUtil.getExcelList("deleteFile.xlsx","");
+        deleteFileData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.DELETE_FILE);
 
 
 

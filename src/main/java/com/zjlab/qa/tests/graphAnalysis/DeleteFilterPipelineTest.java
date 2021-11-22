@@ -36,7 +36,7 @@ public class DeleteFilterPipelineTest {
         projectManageClientApi = new ProjectManageClientApi();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcelList("deleteFilterPipeline.xlsx","");
+        loadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.DELETE_FILTER_PIPELINE);
 
     }
     //    通过读取Excel获取测试数据Request Parameter

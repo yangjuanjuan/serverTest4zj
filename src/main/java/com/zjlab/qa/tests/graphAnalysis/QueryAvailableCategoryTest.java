@@ -34,7 +34,7 @@ public class QueryAvailableCategoryTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        queryAvailableCategoryParams = ReadExcelUtil.getExcelList("queryAvailableCategory.xlsx","");
+        queryAvailableCategoryParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_AVAILABLE_CATEGORY);
 
 
 

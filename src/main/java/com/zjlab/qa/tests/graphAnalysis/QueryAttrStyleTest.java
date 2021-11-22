@@ -36,7 +36,7 @@ public class QueryAttrStyleTest {
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
         categoryIds=new ArrayList<String>();
-        queryAttrStyleParams = ReadExcelUtil.getExcelList("queryAttrStyle.xlsx","");
+        queryAttrStyleParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_ATTR_STYLE);
 
 
 

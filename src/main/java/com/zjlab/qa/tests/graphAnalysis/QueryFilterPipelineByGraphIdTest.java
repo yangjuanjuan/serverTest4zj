@@ -37,7 +37,7 @@ public class QueryFilterPipelineByGraphIdTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        data = ReadExcelUtil.getExcelList("queryFilterPipelineByGraphId.xlsx","");
+        data = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_FILTER_PIPELINE_BY_GRAPH_ID);
 
 
 

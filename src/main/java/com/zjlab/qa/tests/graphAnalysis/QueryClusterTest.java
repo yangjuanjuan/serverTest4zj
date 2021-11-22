@@ -34,7 +34,7 @@ public class QueryClusterTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        queryClusterParams = ReadExcelUtil.getExcelList("queryCluster.xlsx","");
+        queryClusterParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_CLUSTER);
 
 
 

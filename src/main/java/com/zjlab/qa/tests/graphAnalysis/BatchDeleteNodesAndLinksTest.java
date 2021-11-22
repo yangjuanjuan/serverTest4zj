@@ -37,7 +37,7 @@ public class BatchDeleteNodesAndLinksTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        batchDeleteNodesAndLinksParams = ReadExcelUtil.getExcelList("batchDeleteNodesAndLinks.xlsx","");
+        batchDeleteNodesAndLinksParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.BATCH_DELETE_NODES_AND_LINKS);
 
 
 
@@ -74,7 +74,7 @@ public class BatchDeleteNodesAndLinksTest {
                 graphId = JsonHandleUtil.getValueByJpath(graphReJson, "result/id");
 
 // 导入数据
-                String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestMoreClasses.json\"}";
+                String loadParams="{\"projectId\":"+proId+",\"graphId\":"+graphId+",\"fileName\":\"graphTestData.json\"}";
                 graphAnalysisClient.loadData(loadParams);
 
                 Thread.sleep(1000);

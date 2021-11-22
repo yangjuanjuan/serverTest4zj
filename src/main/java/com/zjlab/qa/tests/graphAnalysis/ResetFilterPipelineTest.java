@@ -35,7 +35,7 @@ public class ResetFilterPipelineTest {
         projectManageClientApi = new ProjectManageClientApi();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcelList("resetFilterPipeline.xlsx","");
+        loadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.RESET_FILTER_PIPELINE);
 
     }
     //    通过读取Excel获取测试数据Request Parameter

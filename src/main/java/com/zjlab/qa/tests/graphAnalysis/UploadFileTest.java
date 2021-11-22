@@ -32,7 +32,7 @@ public class UploadFileTest {
     public void setUp(){
         graphAnalysisClient=new GraphAnalysisClientApi();
         files=new ArrayList<String>();
-        uploadFileData = ReadExcelUtil.getExcelList("uploadFile.xlsx","");
+        uploadFileData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.UPLOAD_FILE);
 
 
 

@@ -36,7 +36,7 @@ public class QueryLoadStatusTest {
         projectManageClientApi = new ProjectManageClientApi();
         proIds=new ArrayList<String>();
         graphAnalysisClient=new GraphAnalysisClientApi();
-        loadData = ReadExcelUtil.getExcelList("queryLoadStatus.xlsx","");
+        loadData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_LOAD_STATUS);
 
     }
     //    通过读取Excel获取测试数据Request Parameter

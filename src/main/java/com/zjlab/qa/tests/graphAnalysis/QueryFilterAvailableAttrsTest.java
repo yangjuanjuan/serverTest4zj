@@ -35,7 +35,7 @@ public class QueryFilterAvailableAttrsTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        data = ReadExcelUtil.getExcelList("queryFilterAvailableAttrs.xlsx","");
+        data = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.QUERY_FILTER_AVAILABLE_ATTRS);
 
 
 

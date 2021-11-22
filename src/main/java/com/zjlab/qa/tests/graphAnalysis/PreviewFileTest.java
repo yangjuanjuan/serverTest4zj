@@ -32,7 +32,7 @@ public class PreviewFileTest {
     public void setUp(){
         graphAnalysisClient=new GraphAnalysisClientApi();
         files=new ArrayList<String>();
-        previewFileData = ReadExcelUtil.getExcelList("previewFile.xlsx","");
+        previewFileData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.PREVIEW_FILE);
 
 
 

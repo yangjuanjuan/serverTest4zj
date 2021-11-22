@@ -10,7 +10,7 @@ import org.apache.http.cookie.Cookie;
 public class GraphBuildClientApi extends ApiBaseClient {
 
 
-
+    public static String CASE_FILE="graphBuildCase.xlsx";
     public static String GRAPH_QUERY_BY_ID="GRAPH_QUERY_BY_ID";
     public static String GRAPH_SEARCH="GRAPH_SEARCH";
     public static String GRAPH_BATCH_UPDATE="GRAPH_BATCH_UPDATE";

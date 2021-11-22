@@ -31,7 +31,7 @@ public class UpdateFileNameTest {
     public void setUp(){
         graphAnalysisClient=new GraphAnalysisClientApi();
         files=new ArrayList<String>();
-        updateFileNameData = ReadExcelUtil.getExcelList("updateFileName.xlsx","");
+        updateFileNameData = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.UPDATE_FILE_NAME);
 
 
 

@@ -1,38 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="test1" verbose="1" preserve-order="true" parallel="false">
-    <test name="GraphBuild Cases ">
-        <classes>
-            <class name="com.zjlab.qa.tests.graph.LoadGraphDataTest"></class>
-            <class name="com.zjlab.qa.tests.graph.AddCategoryTest"></class>
-            <class name="com.zjlab.qa.tests.graph.AddEdgeTest"></class>
-            <class name="com.zjlab.qa.tests.graph.AddCategoryAttrTest"></class>
-            <class name="com.zjlab.qa.tests.graph.AddActionTest"></class>
-            <class name="com.zjlab.qa.tests.graph.RedoTest"></class>
-        </classes>
-    </test>
-    <test name="2">
-    <classes>
-        <class name="com.zjlab.qa.tests.graph.BatchDeleteCategoriesAndEdgesTest"></class>
-        <class name="com.zjlab.qa.tests.graph.BatchUpdateTest"></class>
-        <class name="com.zjlab.qa.tests.graph.DeleteActionTest"></class>
-        <class name="com.zjlab.qa.tests.graph.DownloadTest"></class>
-        <class name="com.zjlab.qa.tests.graph.LoadToAnalysisTest"></class>
-    </classes>
-    </test>
-    <test name="3">
-        <classes>
+<suite name="Nebula" verbose="1" preserve-order="true" parallel="tests" thread-count="18">
+    <test name="GraphAnalysis Cases ">
+        <packages>
+            <package name="com.zjlab.qa.tests.graphAnalysis"></package>
+        </packages>
 
-            <class name="com.zjlab.qa.tests.graph.UpdateSemanticTest"></class>
-            <class name="com.zjlab.qa.tests.graph.QueryActionTest"></class>
-            <class name="com.zjlab.qa.tests.graph.QueryByIdTest"></class>
-            <class name="com.zjlab.qa.tests.graph.QueryByTaskIdTest"></class>
-            <class name="com.zjlab.qa.tests.graph.QueryClusterTest"></class>
-            <class name="com.zjlab.qa.tests.graph.QueryEdgeConfigureTest"></class>
-            <class name="com.zjlab.qa.tests.graph.QueryPathTest"></class>
-        </classes>
+    </test>
+    <test name="GraphBuild Cases ">
+        <packages>
+            <package name="com.zjlab.qa.tests.graphBuild"></package>
+        </packages>
     </test>
     <listeners>
-        <listener class-name="com.zjlab.qa.report.ExtentTestNGReporterListener"></listener>
+        <listener class-name="com.zjlab.qa.report.visReporterListener"></listener>
     </listeners>
 </suite>

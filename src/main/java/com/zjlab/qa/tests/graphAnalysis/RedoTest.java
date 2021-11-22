@@ -37,7 +37,7 @@ public class RedoTest {
         projectManageClientApi =new ProjectManageClientApi();
         graphAnalysisClient=new GraphAnalysisClientApi();
         proIds=new ArrayList<String>();
-        redoParams = ReadExcelUtil.getExcelList("redo.xlsx","");
+        redoParams = ReadExcelUtil.getExcelList(GraphAnalysisClientApi.CASE_FILE,GraphAnalysisClientApi.REDO);
 
 
 
