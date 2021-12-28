@@ -16,3 +16,4 @@ src/main/java/logs/
 *.log
 F:*
 rebel.xml
+*index.html
