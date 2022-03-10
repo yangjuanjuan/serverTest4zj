@@ -2,16 +2,21 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <!--<suite name="Nebula" verbose="1" preserve-order="true" parallel="tests" thread-count="18">-->
 <suite name="Nebula" verbose="1" preserve-order="true">
-    <test name="GraphAnalysis Cases ">
-        <packages>
-            <package name="com.zjlab.qa.tests.graphAnalysis"></package>
-        </packages>
+<!--    <test name="GraphAnalysis Cases ">-->
+<!--        <packages>-->
+<!--            <package name="com.zjlab.qa.tests.graphAnalysis"></package>-->
+<!--        </packages>-->
 
-    </test>
-    <test name="GraphBuild Cases ">
-        <packages>
-            <package name="com.zjlab.qa.tests.graphBuild"></package>
-        </packages>
+<!--    </test>-->
+<!--    <test name="GraphBuild Cases ">-->
+<!--        <packages>-->
+<!--            <package name="com.zjlab.qa.tests.graphBuild"></package>-->
+<!--        </packages>-->
+<!--    </test>-->
+    <test name="jacoco">
+        <classes>
+            <class name="com.zjlab.qa.tests.LoginTest"/>
+        </classes>
     </test>
     <listeners>
         <listener class-name="com.zjlab.qa.report.visReporterListener"></listener>
